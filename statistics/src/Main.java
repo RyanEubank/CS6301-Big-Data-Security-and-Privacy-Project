@@ -15,6 +15,8 @@ import util.src.*;
 public class Main {
 
     public static void main(String[] args) {
+		Stream<String> lines = checkUsage(args);
+
 		Debug.print(
 			Status.DEBUG, 
 			"Reading records from csv file...",
@@ -22,7 +24,6 @@ public class Main {
 			"File: " + args[1]
 		);
 
-		Stream<String> lines = checkUsage(args);
 		Optional<List<PatientRecord>> opt = parseCSV(lines);
 
 		Debug.print(Status.DEBUG, "Finished parsing csv, calculating aggregate statistics...");
@@ -78,7 +79,7 @@ public class Main {
 			return parseArgs(args);
 		}
 		catch(Exception e) {
-			String usage = "Usage: ./run.bat --statistics <count> <file>";
+			String usage = "Usage: ./run.bat --statistics <limit> <file>";
 			Debug.print(Status.ERROR, e.toString(), usage);
 			System.exit(-1);
 		}
