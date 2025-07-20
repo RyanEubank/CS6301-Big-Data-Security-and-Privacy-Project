@@ -37,7 +37,6 @@ public class Main {
 
 		return;
 	}
-
     
 	private static void calcStatistics(List<PatientRecord> list) {
 		double average = list
