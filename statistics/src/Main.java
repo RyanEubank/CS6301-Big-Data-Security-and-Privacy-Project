@@ -50,12 +50,22 @@ public class Main {
 			.mapToInt(record -> record.age)
 			.sum();
 
+		double median = list
+			.stream()
+			.mapToInt(record -> record.age)
+			.sorted()
+			.skip((list.size() - 1) / 2)
+			.limit(2)
+			.average()
+			.getAsDouble();
+
 		Debug.print(
 			Status.INFO, 
-			"Printing Age statistics:",
+			"Age statistics:",
 			"Number of records = " + list.size(),
 			"Average age = " + average,
-			"Age sum = " + sum
+			"Age sum = " + sum,
+			"Median age " + median
 		);
 	}
     	
