@@ -55,7 +55,7 @@ public class Main {
 			.mapToInt(record -> record.age)
 			.sorted()
 			.skip((list.size() - 1) / 2)
-			.limit(2)
+			.limit(2 - (list.size() % 2))
 			.average()
 			.getAsDouble();
 
