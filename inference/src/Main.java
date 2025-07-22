@@ -14,25 +14,48 @@ import util.src.*;
 public class Main {
 
 	private static class Statistics {
-		public int num_records;
-		public float average_age;
-		public int min_age;
-		public int max_age;
+		private int num_records;
+		private float average_age;
+		private int min_age;
+		private int max_age;
+		private float median_age;
 
-		public Statistics(String[] args) {
-			this.num_records = Integer.parseInt(args[0]);
-			this.average_age = Float.parseFloat(args[1]);
-			this.min_age = Integer.parseInt(args[2]);
-			this.max_age = Integer.parseInt(args[3]);
+		public Statistics() {
+			this.num_records = 0;
+			this.average_age = -1f;
+			this.min_age = -1;
+			this.max_age = -1;
+			this.median_age = -1f;
 		}
 
-		public int ageSum() {
-			return Math.round(num_records * average_age);
+		public void setNumRecords(int count) {
+			this.num_records = count;
+		}
+
+		public void setMinAge(int min) {
+			this.min_age = min;
+		}
+
+		public void setMaxAge(int max) {
+			this.max_age = max;
+		}
+
+		public void setAverageAge(float avg) {
+			this.average_age = avg;
+		}
+
+		public void setMedianAge(float median) {
+			this.median_age = median;
+		}
+
+		public int calcAgeSum() {
+			return Math.round(this.num_records * this.average_age);
 		}
 	}
 
 	public static void main(String[] args) {
-		Statistics stats  = checkUsage(args);
+		checkUsage(args);
+		Statistics stats = getStatsFromUser();
 
 		Debug.print(
 			Status.INFO, 
@@ -41,45 +64,66 @@ public class Main {
 			"Average age: " + stats.average_age,
 			"Minimum age: " + stats.min_age,
 			"Maximum age: " + stats.max_age,
-			"Sum of patient ages: " + stats.ageSum()
+			"Sum of patient ages: " + stats.calcAgeSum()
 		);
 
 		List<List<Integer>> possibleSums = Inference.reconstructSum(
-			stats.ageSum(), 
+			stats.calcAgeSum(), 
 			stats.num_records,
 			stats.min_age, 
 			stats.max_age
 		);
 		
-		String results = possibleSums.stream().limit(5).collect(Collectors.toList()).toString();
+		String results = possibleSums
+			.stream()
+			.limit(5)
+			.collect(Collectors.toList())
+			.toString();
 
 		Debug.print(
 			Status.INFO, 
-			"Number of results: " + Integer.toString(possibleSums.size()),
-			results + " ... And others."
+			"Number of possible sums: " + Integer.toString(possibleSums.size()),
+			"Preview: " + results + "..."
 		);
 
 		return;
 	}
 
-	public static Statistics checkUsage(String[] args) {
-		try {
-			return parseArgs(args);
-		}
-		catch(Exception e) {
-			String usage = "Usage: ./run.bat --inference <count> <average> <min> <max>";
-			Debug.print(Status.ERROR, e.toString(), usage);
+	private static Statistics getStatsFromUser() {
+		Statistics stats = new Statistics();
+
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.print("Please enter the count or number of records: ");
+			stats.setNumRecords(scanner.nextInt());
+
+			System.out.print("Please enter the minimum age: ");
+			stats.setMinAge(scanner.nextInt());
+
+			System.out.print("Please enter the maximum age: ");
+			stats.setMaxAge(scanner.nextInt());
+
+			System.out.print("Please enter the average age: ");
+			stats.setAverageAge(scanner.nextFloat());
+
+			System.out.print("Please enter the median age: ");
+			stats.setMedianAge(scanner.nextFloat());
+		} catch (Exception e) {
+			Debug.print(Status.ERROR, e.toString());
 			System.exit(-1);
 		}
-        return null;
+
+		return stats;
 	}
-    
-	private static Statistics parseArgs(String[] args) {
-		if (args.length < 2)
-			throw new RuntimeException("Invalid argument count.");
-		else {
-			Statistics arguments = new Statistics(args);
-			return arguments;
+
+	public static void checkUsage(String[] args) {
+		try {
+			if (args.length > 1)
+				throw new RuntimeException("Additional arguments given.");
+		}
+		catch(Exception e) {
+			String usage = "Usage: ./run.bat --inference";
+			Debug.print(Status.ERROR, e.toString(), usage);
+			System.exit(-1);
 		}
 	}
 }
