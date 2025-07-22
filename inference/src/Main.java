@@ -55,67 +55,74 @@ public class Main {
 
 	public static void main(String[] args) {
 		checkUsage(args);
-		Statistics stats = getStatsFromUser();
-
-		Debug.print(
-			Status.INFO, 
-			"Calculating possible ages...",
-			"Number of records: " + stats.num_records,
-			"Average age: " + stats.average_age,
-			"Minimum age: " + stats.min_age,
-			"Maximum age: " + stats.max_age,
-			"Sum of patient ages: " + stats.calcAgeSum()
-		);
-
-		List<List<Integer>> possibleSums = Inference.reconstructSum(
-			stats.calcAgeSum(), 
-			stats.num_records,
-			stats.min_age, 
-			stats.max_age
-		);
-		
-		String results = possibleSums
-			.stream()
-			.limit(5)
-			.collect(Collectors.toList())
-			.toString();
-
-		Debug.print(
-			Status.INFO, 
-			"Number of possible sums: " + Integer.toString(possibleSums.size()),
-			"Preview: " + results + "..."
-		);
-
-		return;
-	}
-
-	private static Statistics getStatsFromUser() {
-		Statistics stats = new Statistics();
 
 		try (Scanner scanner = new Scanner(System.in)) {
-			System.out.print("Please enter the count or number of records: ");
-			stats.setNumRecords(scanner.nextInt());
+			Statistics stats = getStatsFromUser(scanner);
 
-			System.out.print("Please enter the minimum age: ");
-			stats.setMinAge(scanner.nextInt());
+			Debug.print(
+				Status.DEBUG, 
+				"Calculating possible lists of ages...",
+				"Number of records: " + stats.num_records,
+				"Average age: " + stats.average_age,
+				"Minimum age: " + stats.min_age,
+				"Maximum age: " + stats.max_age,
+				"Median age: " + stats.median_age,
+				"Calculated sum of ages: " + stats.calcAgeSum()
+			);
 
-			System.out.print("Please enter the maximum age: ");
-			stats.setMaxAge(scanner.nextInt());
+			List<List<Integer>> possibileAges = Inference.reconstructSum(
+				stats.calcAgeSum(), 
+				stats.num_records,
+				stats.min_age, 
+				stats.max_age
+			);
 
-			System.out.print("Please enter the average age: ");
-			stats.setAverageAge(scanner.nextFloat());
+			printPossibleAges(
+				"Number of possible ages given the average, range, and count: ", 
+				possibileAges
+			);	
 
-			System.out.print("Please enter the median age: ");
-			stats.setMedianAge(scanner.nextFloat());
+			waitForUser(scanner);
+
+			Inference.filterByMedian(possibileAges, stats.median_age);
+
+			printPossibleAges(
+				"Number of possible ages after filtering my median: ",
+				possibileAges
+			);
+
 		} catch (Exception e) {
 			Debug.print(Status.ERROR, e.toString());
 			System.exit(-1);
 		}
 
+		return;
+	}
+
+	private static Statistics getStatsFromUser(Scanner scanner) {
+		Statistics stats = new Statistics();
+
+		System.out.print("Please enter the count or number of records: ");
+		stats.setNumRecords(scanner.nextInt());
+
+		System.out.print("Please enter the minimum age: ");
+		stats.setMinAge(scanner.nextInt());
+
+		System.out.print("Please enter the maximum age: ");
+		stats.setMaxAge(scanner.nextInt());
+
+		System.out.print("Please enter the average age: ");
+		stats.setAverageAge(scanner.nextFloat());
+
+		System.out.print("Please enter the median age: ");
+		stats.setMedianAge(scanner.nextFloat());
+
+		scanner.nextLine();
+		System.out.println();
 		return stats;
 	}
 
-	public static void checkUsage(String[] args) {
+	private static void checkUsage(String[] args) {
 		try {
 			if (args.length > 1)
 				throw new RuntimeException("Additional arguments given.");
@@ -125,5 +132,24 @@ public class Main {
 			Debug.print(Status.ERROR, e.toString(), usage);
 			System.exit(-1);
 		}
+	}
+
+	private static void printPossibleAges(String msg, List<List<Integer>> possibilities) {
+		String results = possibilities
+			.stream()
+			.limit(5)
+			.collect(Collectors.toList())
+			.toString();
+
+		Debug.print(
+			Status.INFO, 
+			msg + Integer.toString(possibilities.size()),
+			"Preview: " + results + "..."
+		);
+	}
+
+	private static void waitForUser(Scanner scanner) {
+		System.out.print("Press enter to continue...");
+		scanner.nextLine();
 	}
 }
