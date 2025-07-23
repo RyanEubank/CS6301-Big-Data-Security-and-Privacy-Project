@@ -39,6 +39,18 @@ public class Main {
 	}
     
 	private static void calcStatistics(List<PatientRecord> list) {
+		int min = list
+			.stream()
+			.mapToInt(record -> record.age)
+			.min()
+			.getAsInt();
+
+		int max = list
+			.stream()
+			.mapToInt(record -> record.age)
+			.max()
+			.getAsInt();
+
 		double average = list
 			.stream()
 			.mapToInt(record -> record.age)
@@ -63,6 +75,7 @@ public class Main {
 			Status.INFO, 
 			"Age statistics:",
 			"Number of records = " + list.size(),
+			"Age range = (" + min + " - " + max + ")",
 			"Average age = " + average,
 			"Age sum = " + sum,
 			"Median age " + median
