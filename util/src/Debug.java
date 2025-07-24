@@ -12,21 +12,22 @@ public class Debug {
 		for (String msg : messages) {
 			switch (status) {
 				case DEBUG:
-					System.out.println("[*] " + ANSI_BLUE + "[DEBUG]" + ANSI_RESET + " - " + msg);
+					System.out.println("[*] -- " + ANSI_BLUE + "[DEBUG]" + ANSI_RESET + " " + msg);
 					break;
 				case ERROR:
-					System.out.println("[-] " + ANSI_RED + "[ERROR]" + ANSI_RESET + " - " + msg);
+					System.out.println("[-] -- " + ANSI_RED + "[ERROR]" + ANSI_RESET + " " + msg);
 					break;
 				case WARNING:
-					System.out.println("[-] " + ANSI_YELLOW + "[WARNING]" + ANSI_RESET + " - " + msg);
+					System.out.println("[-] -- " + ANSI_YELLOW + "[WARNING]" + ANSI_RESET + " " + msg);
 					break;
 				case INFO:
-					System.out.println("[*] " + ANSI_GREEN + "[INFO]" + ANSI_RESET + " - " + msg);
+					System.out.println("[*] -- " + ANSI_GREEN + "[INFO]" + ANSI_RESET + " " + msg);
 					break;
 				default:
 					System.out.println("    \\_ " + msg);
 			}
 			status = Status.NONE; // force remaining strings to print as branches in default case
 		}
+		System.out.println();
 	}
 }
