@@ -18,6 +18,18 @@ public class Inference {
 		return subresults.get(target).get(count);
     }
 
+	public static void filterByMedian(List<List<Integer>> results, double median) {
+			results.removeIf(
+				(list) -> list.stream()
+					.mapToInt(l -> l)
+					.sorted()
+					.skip((list.size() - 1) / 2)
+					.limit(2 - (list.size() % 2))
+					.average()
+					.getAsDouble() != median
+			);
+	}
+
     private static void enumerateSum(
 		int target, 
 		int count, 
