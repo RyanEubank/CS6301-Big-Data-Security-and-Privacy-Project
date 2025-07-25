@@ -20,6 +20,8 @@ public class PatientRecord {
     public String medication;
     public String testResults;
 
+    public PatientRecord() {}
+
     public PatientRecord(String[] record) {
         name = record[0];
         age = Integer.parseInt(record[1]);
@@ -39,7 +41,20 @@ public class PatientRecord {
     }
 
     public String toString() {
-        return "* ================================== *" +
+        return summary();
+    }
+
+    public String summary() {
+        return "[Age: " + age + 
+               ", Gender: " + gender + 
+               ", Blood Type: " + bloodType + 
+               ", Condition: " + condition + "]\n";
+    }
+
+    public String fullRecord() {
+        return "\n* ================================== *" +
+                "            PATIENT RECORD            " +
+                "* ================================== *" +
                 "Name: " + name + "\n" +
                 "Age: " + age + "\n" +
                 "Gender: " + gender + "\n" +
@@ -54,7 +69,6 @@ public class PatientRecord {
                 "Admission Type: " + admissionType + "\n" +
                 "Discharge Date: " + dischargeDate + "\n" +
                 "Medication: " + medication + "\n" +
-                "Test Results: " + testResults + "\n" +
-                "* ================================== *";
+                "Test Results: " + testResults + "\n";
     }
 }

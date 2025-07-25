@@ -70,25 +70,25 @@ public class Main {
 				"Calculated sum of ages: " + stats.calcAgeSum()
 			);
 
-			List<List<Integer>> possibileAges = Inference.reconstructSum(
+			List<List<PatientRecord>> possibileRecords = Inference.reconstructByAge(
 				stats.calcAgeSum(), 
 				stats.num_records,
 				stats.min_age, 
 				stats.max_age
 			);
 
-			printPossibleAges(
-				"Number of possible ages given the average, range, and count: ", 
-				possibileAges
+			printPossibleRecords(
+				"Number of possible records given the average age, age range, and count: ", 
+				possibileRecords
 			);	
 
 			waitForUser(scanner);
 
-			Inference.filterByMedian(possibileAges, stats.median_age);
+			Inference.filterByMedianAge(possibileRecords, stats.median_age);
 
-			printPossibleAges(
-				"Number of possible ages after filtering my median: ",
-				possibileAges
+			printPossibleRecords(
+				"Number of possible records after filtering my median age: ",
+				possibileRecords
 			);
 
 		} catch (Exception e) {
@@ -134,17 +134,21 @@ public class Main {
 		}
 	}
 
-	private static void printPossibleAges(String msg, List<List<Integer>> possibilities) {
-		String results = possibilities
-			.stream()
-			.limit(5)
-			.collect(Collectors.toList())
-			.toString();
-
+	private static void printPossibleRecords(
+		String msg, 
+		List<List<PatientRecord>> possibilities
+	) {
 		Debug.print(
 			Status.INFO, 
 			msg + Integer.toString(possibilities.size()),
-			"Preview: " + results + "..."
+			"Preview:"
+		);
+
+		possibilities.stream().limit(5).forEach(
+			(possibleList) -> {
+				possibleList.forEach((record) -> System.out.print(record));
+				System.out.println();
+			}
 		);
 	}
 

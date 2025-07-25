@@ -2,9 +2,16 @@ package inference.src;
 
 import java.util.*;
 
+import util.src.PatientRecord;
+
 public class Inference {
     
-    public static List<List<Integer>> reconstructSum(int target, int count, int min, int max) {
+    public static List<List<PatientRecord>> reconstructByAge(
+		int target, 
+		int count, 
+		int min, 
+		int max
+	) {
         List<List<List<List<Integer>>>> subresults = new ArrayList<>(target);
 
 		for (int i = 0; i <= target; ++i) {
@@ -15,19 +22,30 @@ public class Inference {
 
 		enumerateSum(target, count, min, max, subresults);
 
-		return subresults.get(target).get(count);
+		List<List<Integer>> possibileAges = subresults.get(target).get(count);
+		List<List<PatientRecord>> results = new ArrayList<>(possibileAges.size());
+
+		possibileAges.forEach((list) -> {
+			results.add(list.stream().map((age) -> {
+				PatientRecord p = new PatientRecord();
+				p.age = age;
+				return p;
+			})
+			.toList());
+		});
+
+		return results;
     }
 
-	public static void filterByMedian(List<List<Integer>> results, double median) {
-			results.removeIf(
-				(list) -> list.stream()
-					.mapToInt(l -> l)
-					.sorted()
-					.skip((list.size() - 1) / 2)
-					.limit(2 - (list.size() % 2))
-					.average()
-					.getAsDouble() != median
-			);
+	public static void filterByMedianAge(List<List<PatientRecord>> results, double median) {
+		results.removeIf((list) -> list.stream()
+			.mapToInt(l -> l.age)
+			.sorted()
+			.skip((list.size() - 1) / 2)
+			.limit(2 - (list.size() % 2))
+			.average()
+			.getAsDouble() != median
+		);
 	}
 
     private static void enumerateSum(
