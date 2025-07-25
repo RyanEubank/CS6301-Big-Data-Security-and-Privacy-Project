@@ -36,6 +36,12 @@ public class Inference {
 
 		return results;
     }
+	public static void filterByAgeRange(List<List<PatientRecord>> results, int min, int max) {
+		results.removeIf((list) -> list.stream()
+			.mapToInt(record -> record.age)
+			.anyMatch(age -> age < min || age > max)
+		);
+	}
 
 	public static void filterByMedianAge(List<List<PatientRecord>> results, double median) {
 		results.removeIf((list) -> list.stream()

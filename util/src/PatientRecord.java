@@ -48,11 +48,11 @@ public class PatientRecord {
         return "[Age: " + age + 
                ", Gender: " + gender + 
                ", Blood Type: " + bloodType + 
-               ", Condition: " + condition + "]\n";
+               ", Condition: " + condition + "]";
     }
 
     public String fullRecord() {
-        return "\n* ================================== *" +
+        return "* ================================== *" +
                 "            PATIENT RECORD            " +
                 "* ================================== *" +
                 "Name: " + name + "\n" +
@@ -69,6 +69,6 @@ public class PatientRecord {
                 "Admission Type: " + admissionType + "\n" +
                 "Discharge Date: " + dischargeDate + "\n" +
                 "Medication: " + medication + "\n" +
-                "Test Results: " + testResults + "\n";
+                "Test Results: " + testResults;
     }
 }
