@@ -6,7 +6,7 @@ import util.src.PatientRecord;
 
 public class Inference {
     
-    public static List<List<PatientRecord>> reconstructByAge(
+    public static List<List<PatientRecord>> reconstructByAgeStats(
 		int target, 
 		int count, 
 		int min, 

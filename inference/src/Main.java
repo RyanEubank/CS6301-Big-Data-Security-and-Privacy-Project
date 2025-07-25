@@ -39,53 +39,102 @@ public class Main {
 		try (Scanner scanner = new Scanner(System.in)) {
 			Statistics stats = new Statistics();
 
-			stats.num_records = getIntFromUser("Please enter the number of records: ", scanner);
-			stats.average_age = getFloatFromUser("Please enter the average age: ", scanner);
-			System.out.println();
-
-			Debug.print(
-				Status.DEBUG, 
-				"Calculating possible lists of ages...",
-				"Number of records: " + stats.num_records,
-				"Average age: " + stats.average_age,
-				"Assuming minimum age: " + 0,
-				"Assuming maximum age: " + 100,
-				"Calculated sum of ages: " + stats.calcAgeSum() + "\n"
-			);
-
-			List<List<PatientRecord>> possibileRecords = 
-				Inference.reconstructByAge(stats.calcAgeSum(), stats.num_records, 0, 100);
-
-			printPossibleRecords(
-				"Number of possible records given the average age and count: ", 
-				possibileRecords
-			);
-
-			stats.min_age = getIntFromUser("Please enter the minimum age: ", scanner);
-			stats.max_age = getIntFromUser("Please enter the maximum age: ", scanner);
-			System.out.println();
-			Inference.filterByAgeRange(possibileRecords, stats.min_age, stats.max_age);
-
-			printPossibleRecords(
-				"Number of possible records given the actual age range: ", 
-				possibileRecords
-			);
-
-			stats.median_age = getFloatFromUser("Please enter the median age: ", scanner);
-			System.out.println();
-			Inference.filterByMedianAge(possibileRecords, stats.median_age);
-
-			printPossibleRecords(
-				"Number of possible records after filtering my median age: ",
-				possibileRecords
-			);
-
+			List<List<PatientRecord>> possibileRecords = reconstructByAverageAge(scanner, stats);
+			filterByAgeRange(scanner, stats, possibileRecords);
+			filterByMedianAge(scanner, stats, possibileRecords);
+			filterByGenderStatistics(scanner, stats, possibileRecords);
+			filterByDiagnosisStatistics(scanner, stats, possibileRecords);
+			filterByBloodTypeStatistics(scanner, stats, possibileRecords);
 		} catch (Exception e) {
 			Debug.print(Status.ERROR, e.toString());
 			System.exit(-1);
 		}
 
 		return;
+	}
+
+	private static List<List<PatientRecord>> reconstructByAverageAge(
+		Scanner scanner, 
+		Statistics stats
+	) {
+		stats.num_records = getIntFromUser("Please enter the number of records: ", scanner);
+		stats.average_age = getFloatFromUser("Please enter the average age: ", scanner);
+		System.out.println();
+
+		Debug.print(
+			Status.DEBUG, 
+			"Calculating possible lists of ages...",
+			"Number of records: " + stats.num_records,
+			"Average age: " + stats.average_age,
+			"Assuming minimum age: " + 0,
+			"Assuming maximum age: " + 100,
+			"Calculated sum of ages: " + stats.calcAgeSum() + "\n"
+		);
+
+		List<List<PatientRecord>> possibileRecords = 
+			Inference.reconstructByAgeStats(stats.calcAgeSum(), stats.num_records, 0, 100);
+
+		printPossibleRecords(
+			"Number of possible records given the average age and count: ", 
+			possibileRecords
+		);
+
+		return possibileRecords;
+	}
+
+	private static void filterByAgeRange(
+		Scanner scanner, 
+		Statistics stats, 
+		List<List<PatientRecord>> possibileRecords
+	) {
+		stats.min_age = getIntFromUser("Please enter the minimum age: ", scanner);
+		stats.max_age = getIntFromUser("Please enter the maximum age: ", scanner);
+		System.out.println();
+		Inference.filterByAgeRange(possibileRecords, stats.min_age, stats.max_age);
+
+		printPossibleRecords(
+			"Number of possible records given the actual age range: ", 
+			possibileRecords
+		);
+	}
+
+	private static void filterByMedianAge(
+		Scanner scanner, 
+		Statistics stats, 
+		List<List<PatientRecord>> possibileRecords
+	) {
+		stats.median_age = getFloatFromUser("Please enter the median age: ", scanner);
+		System.out.println();
+		Inference.filterByMedianAge(possibileRecords, stats.median_age);
+
+		printPossibleRecords(
+			"Number of possible records after filtering my median age: ",
+			possibileRecords
+		);
+	}
+
+	private static void filterByGenderStatistics(
+		Scanner scanner, 
+		Statistics stats,
+		List<List<PatientRecord>> possibileRecords
+	) {
+		throw new UnsupportedOperationException("Not yet Implemented.");
+	}
+
+	private static void filterByDiagnosisStatistics(
+		Scanner scanner, 
+		Statistics stats,
+		List<List<PatientRecord>> possibileRecords
+	) {
+		throw new UnsupportedOperationException("Not yet Implemented.");
+	}
+
+	private static void filterByBloodTypeStatistics(
+		Scanner scanner, 
+		Statistics stats,
+		List<List<PatientRecord>> possibileRecords
+	) {
+		throw new UnsupportedOperationException("Not yet Implemented.");
 	}
 
 	private static int getIntFromUser(String msg, Scanner scanner) {
