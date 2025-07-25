@@ -29,7 +29,10 @@ public class Main {
 		Debug.print(Status.DEBUG, "Finished parsing csv, calculating aggregate statistics...");
 		
 		try {
-			calcStatistics(opt.get());
+			calcAgeStatistics(opt.get());
+			calcGenderStatistics(opt.get());
+			calcDiagnosisStatistics(opt.get());
+			calcBloodtypeStatistics(opt.get());
 		}
 		catch(Exception e) {
 			Debug.print(Status.ERROR, e.toString());
@@ -38,7 +41,7 @@ public class Main {
 		return;
 	}
     
-	private static void calcStatistics(List<PatientRecord> list) {
+	private static void calcAgeStatistics(List<PatientRecord> list) {
 		int min = list
 			.stream()
 			.mapToInt(record -> record.age)
@@ -81,7 +84,19 @@ public class Main {
 			"Median age " + median
 		);
 	}
-    	
+    
+	private static void calcGenderStatistics(List<PatientRecord> list) {
+		throw new UnsupportedOperationException("Not yet implemented.");
+	}
+
+	private static void calcDiagnosisStatistics(List<PatientRecord> list) {
+		throw new UnsupportedOperationException("Not yet implemented.");
+	}
+
+	private static void calcBloodtypeStatistics(List<PatientRecord> list) {
+		throw new UnsupportedOperationException("Not yet implemented.");
+	}
+
     private static Optional<List<PatientRecord>> parseCSV(Stream<String> lines) {
 		try {
 			List<PatientRecord> records = new ArrayList<>();
