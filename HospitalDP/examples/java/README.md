@@ -1,9 +1,9 @@
 
 # Differential Privacy application on Hospital Dataset.
 
-This program is built upon Google's Java Differential Privacy Librar using a Healthcare dataset. 
+This program is built upon Google's Java Differential Privacy Library using a Healthcare dataset sourced from Kaggle. The csv source file is titled patient_records.csv
 
-Install bazel before running the code.
+Please Install bazel before running the code.
 ## Sum Billing Per Year for all the patients combined:
 
 Navigate to `examples/java` folder, build the codelab code and run it with the
@@ -22,6 +22,7 @@ Next, SumBillingPerYear calculates private (anonymized) counts using the Differe
 
 
 ## Contributions by Patients and Bounds/Clamping the billing amounts for each visit:
+
 
 ```java
 /**
