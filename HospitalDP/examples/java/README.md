@@ -15,7 +15,7 @@ $ bazel build ...
 $ bazel-bin/Main SUM_BILLING_PER_YEAR
 ```
 
-This triggers the logic of SumBillingPerYear. It reads the yearly statistics and calculates the number of patients that entered the hospital every year. The calculation is done twice.
+This triggers the logic of SumBillingPerYear. It reads the yearly statistics and calculates the total billing amount for patients that entered the hospital every year. The calculation is done twice.
 
 First, SumBillingPerYear computes the raw counts and outputs them to non_private_counts_per_year.csv.
 Next, SumBillingPerYear calculates private (anonymized) counts using the Differential Privacy library and prints them to private_counts_per_year.csv
