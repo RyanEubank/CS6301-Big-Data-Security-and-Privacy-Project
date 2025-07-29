@@ -1,6 +1,6 @@
 package util.src;
 
-import java.time.LocalDate;
+import java.time.*;
 
 public class PatientRecord {
     
@@ -38,6 +38,10 @@ public class PatientRecord {
         dischargeDate = LocalDate.parse(record[12]);
         medication = record[13];
         testResults = record[14];
+    }
+
+    public Year yearAdmitted() {
+        return Year.from(admissionDate);
     }
 
     public String toString() {
