@@ -1,7 +1,6 @@
 package inference.src;
 
 import java.util.*;
-import java.util.stream.*;
 
 import util.src.*;
 
