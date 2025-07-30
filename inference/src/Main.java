@@ -19,12 +19,17 @@ public class Main {
 		private int max_age;
 		private float median_age;
 
+        private Map<String, Integer> blood_type_distribution;
+        private Map<String, Map<String, Integer>> blood_types_by_diagnosis;
+
 		public Statistics() {
 			this.num_records = 0;
 			this.average_age = -1f;
 			this.min_age = -1;
 			this.max_age = -1;
 			this.median_age = -1f;
+            this.blood_type_distribution = new HashMap<>();
+            this.blood_types_by_diagnosis = new HashMap<>();
 		}
 
 		public int calcAgeSum() {
@@ -43,6 +48,7 @@ public class Main {
 			filterByMedianAge(scanner, stats, possibileRecords);
 			filterByGenderStatistics(scanner, stats, possibileRecords);
 			filterByDiagnosisStatistics(scanner, stats, possibileRecords);
+            reconstructByBloodTypeDistributions(scanner, stats, possibileRecords);
 			filterByBloodTypeStatistics(scanner, stats, possibileRecords);
 		} catch (Exception e) {
 			Debug.print(Status.ERROR, e.toString());
@@ -52,7 +58,7 @@ public class Main {
 		return;
 	}
 
-	private static List<List<PatientRecord>> reconstructByAverageAge(
+    private static List<List<PatientRecord>> reconstructByAverageAge(
 		Scanner scanner, 
 		Statistics stats
 	) {
@@ -71,7 +77,7 @@ public class Main {
 		);
 
 		List<List<PatientRecord>> possibileRecords = 
-			Inference.reconstructByAgeStats(stats.calcAgeSum(), stats.num_records, 0, 100);
+            Inference.reconstructByAgeStats(stats.calcAgeSum(), stats.num_records, 0, 100);
 
 		printPossibleRecords(
 			"Number of possible records given the average age and count: ", 
@@ -107,7 +113,7 @@ public class Main {
 		Inference.filterByMedianAge(possibileRecords, stats.median_age);
 
 		printPossibleRecords(
-			"Number of possible records after filtering my median age: ",
+			"Number of possible records after filtering by median age: ",
 			possibileRecords
 		);
 	}
@@ -117,7 +123,7 @@ public class Main {
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+		//throw new UnsupportedOperationException("Not yet Implemented.");
 	}
 
 	private static void filterByDiagnosisStatistics(
@@ -125,16 +131,81 @@ public class Main {
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+		//throw new UnsupportedOperationException("Not yet Implemented.");
 	}
+
+	private static void reconstructByBloodTypeDistributions(
+        Scanner scanner, 
+        Statistics stats,
+        List<List<PatientRecord>> possibileRecords
+    ) {
+        Debug.requestInput("Please enter the number of patients with the given blood types:\n");
+
+        stats.blood_type_distribution.put("A+", getIntFromUser("A+: ", scanner));
+        stats.blood_type_distribution.put("A-", getIntFromUser("A-: ", scanner));
+        stats.blood_type_distribution.put("B+", getIntFromUser("B+: ", scanner));
+        stats.blood_type_distribution.put("B-", getIntFromUser("B-: ", scanner));
+        stats.blood_type_distribution.put("AB+", getIntFromUser("AB+: ", scanner));
+        stats.blood_type_distribution.put("AB-", getIntFromUser("AB-: ", scanner));
+        stats.blood_type_distribution.put("O+", getIntFromUser("O+: ", scanner));
+        stats.blood_type_distribution.put("O-", getIntFromUser("O-: ", scanner));
+
+        Inference.reconstructByBloodTypeCounts(stats.blood_type_distribution, possibileRecords);
+
+        printPossibleRecords(
+			"Number of possible records given the blood type information: ", 
+			possibileRecords
+		);
+    }
 
 	private static void filterByBloodTypeStatistics(
 		Scanner scanner, 
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+        stats.blood_types_by_diagnosis
+            .put("Arthritis", getCountsByDiagnosis("Arthritis", scanner));
+        stats.blood_types_by_diagnosis
+            .put("Asthma", getCountsByDiagnosis("Asthma", scanner));
+        stats.blood_types_by_diagnosis
+            .put("Cancer", getCountsByDiagnosis("Cancer", scanner));
+        stats.blood_types_by_diagnosis
+            .put("Diabetes", getCountsByDiagnosis("Diabetes", scanner));
+        stats.blood_types_by_diagnosis
+            .put("Hypertension", getCountsByDiagnosis("Hypertension", scanner));
+        stats.blood_types_by_diagnosis
+            .put("Obesity", getCountsByDiagnosis("Obesity", scanner));
+
+        Inference.filterByBloodTypeDistributions(
+            possibileRecords, stats.blood_types_by_diagnosis);
+
+        printPossibleRecords(
+			"Number of possible records after filtering by blood type/diagnosis distribution: ",
+			possibileRecords
+		);
 	}
+
+    private static Map<String, Integer> getCountsByDiagnosis(
+        String diagnosis, 
+        Scanner scanner
+    ) {
+        Map<String, Integer> counts = new HashMap<>();
+
+        Debug.requestInput(
+            "Please enter the counts by blood type for users with" + 
+            diagnosis + ".\n");
+
+        counts.put("A+", getIntFromUser("A+ : ", scanner));
+        counts.put("A-", getIntFromUser("A- : ", scanner));
+        counts.put("B+", getIntFromUser("B+ : ", scanner));
+        counts.put("B-", getIntFromUser("B- : ", scanner));
+        counts.put("AB+", getIntFromUser("AB+ : ", scanner));
+        counts.put("AB-", getIntFromUser("AB- : ", scanner));
+        counts.put("O+", getIntFromUser("O+ : ", scanner));
+        counts.put("O-", getIntFromUser("O- : ", scanner));
+
+        return counts;
+    }
 
 	private static int getIntFromUser(String msg, Scanner scanner) {
 		Debug.requestInput(msg);

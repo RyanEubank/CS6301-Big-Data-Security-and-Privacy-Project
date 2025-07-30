@@ -3,7 +3,8 @@ package statistics.src;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
 import util.src.*;
 
@@ -86,15 +87,67 @@ public class Main {
 	}
     
 	private static void calcGenderStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+		//throw new UnsupportedOperationException("Not yet implemented.");
 	}
 
 	private static void calcDiagnosisStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+		//throw new UnsupportedOperationException("Not yet implemented.");
 	}
 
 	private static void calcBloodtypeStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+		Map<String, Long> cumulativeDistribution = list
+			.stream()
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> arthritisDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Arthritis"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> asthmaDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Asthma"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+		
+		Map<String, Long> cancerDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Cancer"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> diabetesDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Diabetes"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Map<String, Long> hypertensionDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Hypertension"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> obesityDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Obesity"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Debug.print(
+			Status.INFO, 
+			"Blood type statistics:",
+			"Cummulative Distribution = " + cumulativeDistribution,
+			"-- Distribution by diagnosis --",
+			"Arthritis = " + arthritisDistribution,
+			"Asthma = " + asthmaDistribution,
+			"Cancer = " + cancerDistribution,
+			"Diabetes = " + diabetesDistribution,
+			"Hypertension = " + hypertensionDistribution,
+			"Obesity = " + obesityDistribution
+		);
 	}
 
     private static Optional<List<PatientRecord>> parseCSV(Stream<String> lines) {
