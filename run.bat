@@ -14,7 +14,7 @@ IF %module% == "--statistics" (
 ) ELSE IF %module% == "--dp" (
     javac -cp util/build;dp/lib/* dp/src/*.java -d dp/build
     java -cp dp/build;util/build;dp/lib/* dp.src.Main %2
-mkdir dp/out
+    mkdir dp/out
 ) ELSE (
     echo "Unknown command."
 )
