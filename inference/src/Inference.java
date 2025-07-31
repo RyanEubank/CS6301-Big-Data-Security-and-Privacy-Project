@@ -273,8 +273,6 @@ public class Inference {
 		}
 	}
 
-
-
     private static void enumerateSum(
 		int target, 
 		int count, 
@@ -307,5 +305,52 @@ public class Inference {
 				}
 			}
 		}
+	}
+    
+    @SuppressWarnings("unused")
+    private static void enumerateSumTabulate(
+		int target, 
+		int count, 
+		int min, 
+		int max,
+		List<List<List<List<Integer>>>> table
+	) {
+        for (int i = 0; i <= target; ++i)
+            table.get(i).get(0).add(Collections.emptyList());       // zero ways to sum 0 integers to target value
+
+		for (int i = 0; i <= target; ++i) {
+            if (i >= min && i <= max)
+                table.get(i).get(1).add(List.of(i));                // exactly 1 way to sum 1 integer to target value in range    
+            else
+                table.get(i).get(1).add(Collections.emptyList());   // zero ways to sum 1 integer to target value out of range 
+        }
+
+        for (int i = 2; i <= count; ++i) {
+            for (int j = 0; j <= target; ++j) {
+                List<List<Integer>> results = new ArrayList<>();
+
+                for (int k = 0; k <= j; ++k) {
+                    final int k_ = k;
+                    List<List<Integer>> subresults = table.get(j - k).get(i - 1);
+                    results.addAll(subresults.stream().filter((list) -> { 
+                        if (list.isEmpty())
+                            return false;
+                        if (list.get(0) < k_)
+                            return false;
+                        return true;
+                    }).map((list) -> { 
+                        List<Integer> mutableList = new ArrayList<>();
+                        mutableList.add(k_);
+                        mutableList.addAll(list);
+                        return mutableList;
+                    }).toList());
+                }
+
+                table.get(j).get(i).addAll(results);
+            }
+            
+            for (int p = 0; p <= target; ++p)
+                table.get(p).get(i-1).clear();
+        }
 	}
 }
