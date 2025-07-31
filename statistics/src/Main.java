@@ -3,7 +3,8 @@ package statistics.src;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.*;
+import java.util.function.*;
 
 import util.src.*;
 
@@ -86,15 +87,118 @@ public class Main {
 	}
     
 	private static void calcGenderStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+        long count = list
+            .stream()
+            .filter((record) -> record.gender.equals("Male"))
+            .count();
+
+		double averageMale = list
+			.stream()
+            .filter((record) -> record.gender.equals("Male"))
+			.mapToInt(record -> record.age)
+			.average()
+			.orElseThrow();
+
+		double averageFemale = list
+			.stream()
+            .filter((record) -> !record.gender.equals("Male"))
+			.mapToInt(record -> record.age)
+			.average()
+			.orElseThrow();
+
+		Debug.print(
+			Status.INFO, 
+			"Gender statistics:",
+			"Number of males = " + count,
+			"Number of females = " + (list.size() - count),
+            "Average age of males = " + averageMale,
+            "Average age of females = " + averageFemale
+		);
 	}
 
-	private static void calcDiagnosisStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+	private static void calcDiagnosisStatistics(List<PatientRecord> list) {  
+        Map<String, Long> cumulativeDistribution = list
+			.stream()
+			.map((record) -> record.condition)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Map<String, Double> averageAgeByDiagnosis = list
+            .stream()
+            .collect(Collectors.groupingBy(
+                (record) -> record.condition, 
+                Collectors.averagingDouble((record) -> record.age)
+            ));
+
+		Debug.print(
+			Status.INFO, 
+			"Diagnosis statistics:",
+            "Cummulative Distribution = " + cumulativeDistribution,
+            "Average age by diagnosis = " + averageAgeByDiagnosis
+		);		
 	}
 
 	private static void calcBloodtypeStatistics(List<PatientRecord> list) {
-		throw new UnsupportedOperationException("Not yet implemented.");
+		Map<String, Long> cumulativeDistribution = list
+			.stream()
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> arthritisDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Arthritis"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> asthmaDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Asthma"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+		
+		Map<String, Long> cancerDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Cancer"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> diabetesDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Diabetes"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Map<String, Long> hypertensionDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Hypertension"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+		Map<String, Long> obesityDistribution = list
+			.stream()
+			.filter((record) -> record.condition.equals("Obesity"))
+			.map((record) -> record.bloodType)
+			.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        Map<String, Double> averageAgeByBloodtype = list
+            .stream()
+            .collect(Collectors.groupingBy(
+                (record) -> record.bloodType, 
+                Collectors.averagingDouble((record) -> record.age)
+            ));
+
+		Debug.print(
+			Status.INFO, 
+			"Blood type statistics:",
+			"Cummulative Distribution = " + cumulativeDistribution,
+			"-- Distribution by diagnosis --",
+			"Arthritis = " + arthritisDistribution,
+			"Asthma = " + asthmaDistribution,
+			"Cancer = " + cancerDistribution,
+			"Diabetes = " + diabetesDistribution,
+			"Hypertension = " + hypertensionDistribution,
+			"Obesity = " + obesityDistribution,
+            "Average age by blood type  = " + averageAgeByBloodtype
+		);
 	}
 
     private static Optional<List<PatientRecord>> parseCSV(Stream<String> lines) {
