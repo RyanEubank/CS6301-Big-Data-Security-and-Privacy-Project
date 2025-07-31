@@ -1,7 +1,6 @@
 package inference.src;
 
 import java.util.*;
-import java.util.stream.*;
 
 import util.src.*;
 
@@ -118,7 +117,16 @@ public class Main {
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+		String gender = getStringFromUser("Please enter the gender (Male/Female): ", scanner);
+		int count = getIntFromUser("Please enter the count for " + gender + ": ", scanner);
+		float averageAge = getFloatFromUser("Please enter the average age of " + gender + "s: ", scanner);
+		System.out.println();
+		Inference.filterByGenderStatistics(possibileRecords, gender, count, averageAge);
+
+		printPossibleRecords(
+			"Number of possible records after filtering by gender statistics: ",
+			possibileRecords
+		);
 	}
 
 	private static void filterByDiagnosisStatistics(
@@ -126,7 +134,16 @@ public class Main {
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+		String diagnosis = getStringFromUser("Please enter the medical condition: ", scanner);
+		int count = getIntFromUser("Please enter the count for " + diagnosis + ": ", scanner);
+		float averageAge = getFloatFromUser("Please enter the average age of patients with " + diagnosis + ": ", scanner);
+		System.out.println();
+		Inference.filterByDiagnosisStatistics(possibileRecords, diagnosis, count, averageAge);
+
+		printPossibleRecords(
+			"Number of possible records after filtering by diagnosis statistics: ",
+			possibileRecords
+		);
 	}
 
 	private static void filterByBloodTypeStatistics(
@@ -134,7 +151,16 @@ public class Main {
 		Statistics stats,
 		List<List<PatientRecord>> possibileRecords
 	) {
-		throw new UnsupportedOperationException("Not yet Implemented.");
+		String bloodType = getStringFromUser("Please enter the blood type (e.g., A+, B-, O+, AB-): ", scanner);
+		int count = getIntFromUser("Please enter the count for " + bloodType + ": ", scanner);
+		float averageAge = getFloatFromUser("Please enter the average age of patients with " + bloodType + " blood type: ", scanner);
+		System.out.println();
+		Inference.filterByBloodTypeStatistics(possibileRecords, bloodType, count, averageAge);
+
+		printPossibleRecords(
+			"Number of possible records after filtering by blood type statistics: ",
+			possibileRecords
+		);
 	}
 
 	private static int getIntFromUser(String msg, Scanner scanner) {
@@ -145,6 +171,11 @@ public class Main {
 	private static float getFloatFromUser(String msg, Scanner scanner) {
 		Debug.requestInput(msg);
 		return scanner.nextFloat();
+	}
+
+	private static String getStringFromUser(String msg, Scanner scanner) {
+		Debug.requestInput(msg);
+		return scanner.next();
 	}
 
 	private static void checkUsage(String[] args) {
