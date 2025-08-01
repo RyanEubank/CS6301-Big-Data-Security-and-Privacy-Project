@@ -59,4 +59,74 @@ public class ContributionBoundingUtils {
 
     return boundedVisits;
   }
+
+  static VisitsForBG boundContributedBG(VisitsForBG visits, int maxContributedBG) {
+    Map<String, Set<String>> boundedVisitorBG = new HashMap<>();
+    List<PatientRecord> allVisits = new ArrayList<>();
+    VisitsForBG boundedVisits = new VisitsForBG();
+
+    // Add all visits to a list in order to shuffle them.
+    for (String BG : visits.getBGWithData()) {
+      Collection<PatientRecord> visitsForBG = visits.getVisitsForBG(BG);
+      allVisits.addAll(visitsForBG);
+    }
+    Collections.shuffle(allVisits);
+
+    // For each name, copy their visits for at most maxContributedDays days to the result.
+    for (PatientRecord record : allVisits) {
+      String name = record.name;
+      String visitBG = record.bloodType;
+      if (boundedVisitorBG.containsKey(name)) {
+        Set<String> visitorBG = boundedVisitorBG.get(name);
+        if (visitorBG.contains(visitBG)) {
+          boundedVisits.addVisit(record);
+        } else if (visitorBG.size() < maxContributedBG) {
+          visitorBG.add(visitBG);
+          boundedVisits.addVisit(record);
+        }
+      } else {
+        Set<String> visitorBG = new HashSet<>();
+        boundedVisitorBG.put(name, visitorBG);
+        visitorBG.add(visitBG);
+        boundedVisits.addVisit(record);
+      }
+    }
+
+    return boundedVisits;
+  }
+
+  static VisitsForCT boundContributedCT(VisitsForCT visits, int maxContributedCT) {
+    Map<String, Set<String>> boundedVisitorCT = new HashMap<>();
+    List<PatientRecord> allVisits = new ArrayList<>();
+    VisitsForCT boundedVisits = new VisitsForCT();
+
+    // Add all visits to a list in order to shuffle them.
+    for (String CT : visits.getCTWithData()) {
+      Collection<PatientRecord> visitsForCT = visits.getVisitsForCT(CT);
+      allVisits.addAll(visitsForCT);
+    }
+    Collections.shuffle(allVisits);
+
+    // For each name, copy their visits for at most maxContributedDays days to the result.
+    for (PatientRecord record : allVisits) {
+      String name = record.name;
+      String visitCT = record.condition;
+      if (boundedVisitorCT.containsKey(name)) {
+        Set<String> visitorCT = boundedVisitorCT.get(name);
+        if (visitorCT.contains(visitCT)) {
+          boundedVisits.addVisit(record);
+        } else if (visitorCT.size() < maxContributedCT) {
+          visitorCT.add(visitCT);
+          boundedVisits.addVisit(record);
+        }
+      } else {
+        Set<String> visitorCT = new HashSet<>();
+        boundedVisitorCT.put(name, visitorCT);
+        visitorCT.add(visitCT);
+        boundedVisits.addVisit(record);
+      }
+    }
+
+    return boundedVisits;
+  }
 }

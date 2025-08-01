@@ -35,7 +35,6 @@ class IOUtils {
           // pattern
           .appendPattern("M/d/yy")
             .toFormatter(Locale.ENGLISH);
-  private static final String CSV_YEAR_COUNT_WRITE_TEMPLATE = "%d,%d\n";
 
   private IOUtils() {}
 
@@ -85,15 +84,94 @@ class IOUtils {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+    
+    return result;
+  }
+
+  
+  static VisitsForBG readBGVisits(Path path) {
+    VisitsForBG result = new VisitsForBG();
+
+    try {
+      List<String> visitsAsText = Files.readAllLines(path);
+      visitsAsText.stream()
+              .skip(1)
+              .forEach(v -> {
+                PatientRecord record = convertLineToVisit(v);
+                result.addVisit(record);
+              });
+
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+
+    return result;
+  }
+
+  
+  static VisitsForCT readCTVisits(Path path) {
+    VisitsForCT result = new VisitsForCT();
+
+    try {
+      List<String> visitsAsText = Files.readAllLines(path);
+      visitsAsText.stream()
+              .skip(1)
+              .forEach(v -> {
+                PatientRecord record = convertLineToVisit(v);
+                result.addVisit(record);
+              });
+
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
 
     return result;
   }
 
 
+  static void writeMeansPerCT(Map<String, Double> means, String file) {
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Condition,MeanBilling\n"); // Write header
+      // Format the double to two decimal places for cleaner output.
+      String format = "%s,%.2f\n";
+      means.forEach(
+              (CT, mean) -> pw.write(String.format(format, CT, mean)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+
+  static void writeMeansPerYear(Map<Year, Double> means, String file) {
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Year,MeanBilling\n"); // Write header
+      // Format the double to two decimal places for cleaner output.
+      String format = "%d,%.2f\n";
+      means.forEach(
+              (year, mean) -> pw.write(String.format(format, year.getValue(), mean)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
   static void writeCountsPerYear(Map<Year, Integer> counts, String file) {
     try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Year,SumBilling\n"); // Write header
+      String format = "%d,%d\n";
       counts.forEach(
-          (year, count) -> pw.write(String.format(CSV_YEAR_COUNT_WRITE_TEMPLATE, year.getValue(), count)));
+          (year, count) -> pw.write(String.format(format, year.getValue(), count)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  
+  static void writeCountsPerBG(Map<String, Integer> counts, String file) {
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Blood Group,SumBilling\n"); // Write header
+      String format = "%s,%d\n";
+      counts.forEach(
+              (BG, count) -> pw.write(String.format(format, BG, count)));
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
