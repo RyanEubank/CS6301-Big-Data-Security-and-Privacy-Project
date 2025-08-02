@@ -16,9 +16,9 @@ public class MeanBillingPerYear {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_per_year.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_means_per_year.csv";
 
-    private static final double LN_3 = Math.log(3);
+    private static final double LN_X = Math.log(1.1);
 
-    // This remains the same: we limit how many years a patient can contribute to overall.
+    // How many different yeats can a patient name contribute to overall.
     private static final int MAX_CONTRIBUTED_YEARS = 2;
 
     // The bounds for a single billing amount remain the same.
@@ -75,7 +75,7 @@ public class MeanBillingPerYear {
             // Use BoundedMean instead of BoundedSum.
             BoundedMean dpMean =
                 BoundedMean.builder()
-                    .epsilon(LN_3)
+                    .epsilon(LN_X)
                     // For a given year's calculation, a patient can only be in one
                     // partition (that year), so this is 1.
                     .maxPartitionsContributed(1)

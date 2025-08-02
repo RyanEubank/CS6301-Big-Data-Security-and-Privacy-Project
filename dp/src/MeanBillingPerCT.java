@@ -16,9 +16,9 @@ public class MeanBillingPerCT {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_per_condition.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_condition_means_per_condition.csv";
 
-    private static final double LN_3 = Math.log(1.1);
+    private static final double LN_X = Math.log(1.1);
 
-    // we limit how many times a patient can contribute to overall.
+    // we limit how many different conditions a patient name can contribute to overall.
     private static final int MAX_CONTRIBUTIONS = 2;
 
     // The bounds for a single billing.
@@ -75,7 +75,7 @@ public class MeanBillingPerCT {
             // Use BoundedMean.
             BoundedMean dpMean =
                 BoundedMean.builder()
-                    .epsilon(LN_3)
+                    .epsilon(LN_X)
                     // For a given condition type, a patient can only be in one
                     // partition (that condition type), so this is 1.
                     .maxPartitionsContributed(2)

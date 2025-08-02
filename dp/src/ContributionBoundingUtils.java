@@ -26,7 +26,7 @@ public class ContributionBoundingUtils {
    * TODO: Generalize the logic to be used for different partition keys.
    */
   static VisitsForYear boundContributedYears(VisitsForYear visits, int maxContributedYears) {
-    Map<String, Set<Year>> boundedVisitorYears = new HashMap<>();
+    Map<Integer, Set<Year>> boundedVisitorYears = new HashMap<>();
     List<PatientRecord> allVisits = new ArrayList<>();
     VisitsForYear boundedVisits = new VisitsForYear();
 
@@ -37,12 +37,13 @@ public class ContributionBoundingUtils {
     }
     Collections.shuffle(allVisits);
 
-    // For each name, copy their visits for at most maxContributedDays days to the result.
+    // For each id, copy their visits for at most maxContributedYears to the result,
+    // limiting the number of Years a patient id can contribute.
     for (PatientRecord record : allVisits) {
-      String name = record.name;
+      int id = record.id;
       Year visitYear = record.yearAdmitted();
-      if (boundedVisitorYears.containsKey(name)) {
-        Set<Year> visitorYears = boundedVisitorYears.get(name);
+      if (boundedVisitorYears.containsKey(id)) {
+        Set<Year> visitorYears = boundedVisitorYears.get(id);
         if (visitorYears.contains(visitYear)) {
           boundedVisits.addVisit(record);
         } else if (visitorYears.size() < maxContributedYears) {
@@ -51,7 +52,7 @@ public class ContributionBoundingUtils {
         }
       } else {
         Set<Year> visitorYears = new HashSet<>();
-        boundedVisitorYears.put(name, visitorYears);
+        boundedVisitorYears.put(id, visitorYears);
         visitorYears.add(visitYear);
         boundedVisits.addVisit(record);
       }
@@ -61,7 +62,7 @@ public class ContributionBoundingUtils {
   }
 
   static VisitsForBG boundContributedBG(VisitsForBG visits, int maxContributedBG) {
-    Map<String, Set<String>> boundedVisitorBG = new HashMap<>();
+    Map<Integer, Set<String>> boundedVisitorBG = new HashMap<>();
     List<PatientRecord> allVisits = new ArrayList<>();
     VisitsForBG boundedVisits = new VisitsForBG();
 
@@ -72,12 +73,13 @@ public class ContributionBoundingUtils {
     }
     Collections.shuffle(allVisits);
 
-    // For each name, copy their visits for at most maxContributedDays days to the result.
+    // For each id, copy their visits for at most maxContributedBG to the result,
+    // limiting the number of Blood Groups a patient id can contribute.
     for (PatientRecord record : allVisits) {
-      String name = record.name;
+      int id = record.id;
       String visitBG = record.bloodType;
-      if (boundedVisitorBG.containsKey(name)) {
-        Set<String> visitorBG = boundedVisitorBG.get(name);
+      if (boundedVisitorBG.containsKey(id)) {
+        Set<String> visitorBG = boundedVisitorBG.get(id);
         if (visitorBG.contains(visitBG)) {
           boundedVisits.addVisit(record);
         } else if (visitorBG.size() < maxContributedBG) {
@@ -86,7 +88,7 @@ public class ContributionBoundingUtils {
         }
       } else {
         Set<String> visitorBG = new HashSet<>();
-        boundedVisitorBG.put(name, visitorBG);
+        boundedVisitorBG.put(id, visitorBG);
         visitorBG.add(visitBG);
         boundedVisits.addVisit(record);
       }
@@ -96,7 +98,7 @@ public class ContributionBoundingUtils {
   }
 
   static VisitsForCT boundContributedCT(VisitsForCT visits, int maxContributedCT) {
-    Map<String, Set<String>> boundedVisitorCT = new HashMap<>();
+    Map<Integer, Set<String>> boundedVisitorCT = new HashMap<>();
     List<PatientRecord> allVisits = new ArrayList<>();
     VisitsForCT boundedVisits = new VisitsForCT();
 
@@ -107,12 +109,13 @@ public class ContributionBoundingUtils {
     }
     Collections.shuffle(allVisits);
 
-    // For each name, copy their visits for at most maxContributedDays days to the result.
+    // For each id, copy their visits for at most maxContributedCT to the result,
+    // limiting the number of conditions a patient id can contribute.
     for (PatientRecord record : allVisits) {
-      String name = record.name;
+      int id = record.id;
       String visitCT = record.condition;
-      if (boundedVisitorCT.containsKey(name)) {
-        Set<String> visitorCT = boundedVisitorCT.get(name);
+      if (boundedVisitorCT.containsKey(id)) {
+        Set<String> visitorCT = boundedVisitorCT.get(id);
         if (visitorCT.contains(visitCT)) {
           boundedVisits.addVisit(record);
         } else if (visitorCT.size() < maxContributedCT) {
@@ -121,7 +124,7 @@ public class ContributionBoundingUtils {
         }
       } else {
         Set<String> visitorCT = new HashSet<>();
-        boundedVisitorCT.put(name, visitorCT);
+        boundedVisitorCT.put(id, visitorCT);
         visitorCT.add(visitCT);
         boundedVisits.addVisit(record);
       }

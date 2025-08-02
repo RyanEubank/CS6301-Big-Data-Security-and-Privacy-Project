@@ -18,17 +18,18 @@ public class SumBillingPerBG {
   private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_per_BG.csv";
   private static final String PRIVATE_OUTPUT = "dp/out/private_sums_per_BG.csv";
 
-  private static final double LN_3 = Math.log(3);
+  private static final double LN_X = Math.log(1.1);
 
   /**
    * Number of visits contributed by a single patient per blood group will be limited to 3. All exceeding
    * visits will be discarded. In the dataset though there very minimal duplicate names, so 3 should be good.
    */
-  private static final int MAX_CONTRIBUTED_BG = 3;
+  //How many different Blood Groups can a patient name contribute to overall
+  private static final int MAX_CONTRIBUTED_BG = 2;
   /** Minimum amount of money we expect a patient billed in a single visit. */
-  private static final int MIN_EUROS_SPENT = -2009;
+  private static final int MIN_EUROS_SPENT = 0;
   /** Maximum amount of money we expect a patient billed in a single visit. */
-  private static final int MAX_EUROS_SPENT = 55000;
+  private static final int MAX_EUROS_SPENT = 50000;
 
   private SumBillingPerBG() { }
 
@@ -72,7 +73,7 @@ public class SumBillingPerBG {
     for (String BG : boundedVisits.getBGWithData()) {
       BoundedSum dpSum =
           BoundedSum.builder()
-              .epsilon(LN_3)
+              .epsilon(LN_X)
               // The data was pre-processed so that each patient may visit the hospital up to
               // MAX_CONTRIBUTED_YEARS
               // Note: while the library accepts this limit as a configurable parameter,
