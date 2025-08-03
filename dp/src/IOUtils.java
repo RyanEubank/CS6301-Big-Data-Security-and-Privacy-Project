@@ -296,7 +296,7 @@ class IOUtils {
       pw.write("Year,Count\n"); // Write header
       String format = "%d,%d\n";
       counts.forEach(
-              (year, count) -> pw.write(String.format(format, year.getValue(), count)));
+          (year, count) -> pw.write(String.format(format, year.getValue(), count)));
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
@@ -307,7 +307,7 @@ class IOUtils {
       pw.write("Condition,Count\n"); // Write header
       String format = "%s,%d\n";
       counts.forEach(
-              (conditionType, count) -> pw.write(String.format(format, conditionType, count)));
+          (conditionType, count) -> pw.write(String.format(format, conditionType, count)));
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
@@ -323,4 +323,6 @@ class IOUtils {
       throw new IllegalStateException(e);
     }
   }
+
 }
+
