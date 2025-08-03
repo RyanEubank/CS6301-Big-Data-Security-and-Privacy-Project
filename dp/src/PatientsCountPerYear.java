@@ -16,8 +16,9 @@ import java.util.*;
 public class PatientsCountPerYear {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_year.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_year.csv";
-    private static final double LN_3 = Math.log(1.5);
-    private static final int MAX_CONTRIBUTED_YEARS = 3;
+
+    private static final double LN_3 = Math.log(1.5); // Epsilon value for differential privacy
+    private static final int MAX_CONTRIBUTED_YEARS = 2; // max number of years a patient can contribute to
     
 
     public static void run(Path path){ 
@@ -35,9 +36,9 @@ public class PatientsCountPerYear {
     static Map<Year, Integer> getNonPrivatePatientCount(VisitsForYear visits) {
         Map<Year, Integer> ptntCntPerYear = new HashMap<>();
         for (Year year : visits.getYearsWithData()) {
-            Set<String> uniquePatients = new HashSet<>();
+            Set<Integer> uniquePatients = new HashSet<>();
             for (PatientRecord record : visits.getVisitsForYear(year)) {
-                uniquePatients.add(record.name);
+                uniquePatients.add(record.id);
             }
             ptntCntPerYear.put(year, uniquePatients.size());
         }
@@ -53,9 +54,9 @@ public class PatientsCountPerYear {
         VisitsForYear boundedVisits = ContributionBoundingUtils.boundContributedYears(visits, MAX_CONTRIBUTED_YEARS);
         
         for (Year year : boundedVisits.getYearsWithData()){
-            Set<String> uniquePtnt = new HashSet<>();
+            Set<Integer> uniquePtnt = new HashSet<>();
             for (PatientRecord record : boundedVisits.getVisitsForYear(year)) {
-                uniquePtnt.add(record.name);
+                uniquePtnt.add(record.id);
             }
 
             Count dpCount = Count.builder()

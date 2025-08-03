@@ -127,3 +127,60 @@ Please refer to the Restaurant example README file for understanding the importa
 
 ## MEAN Statistics:
 
+## COUNT Statistics:
+The DP library provies a primitive value for calculating the Count for any data field in a dataset. In our implementation we decided to calculate the count of the number of **unique patients** who visited the hospital based on the year, condition type, and blood type.
+
+### PatientsCountPerYear
+This is a utility that computes the number of **unique patients** visiting a hospital, broken down by year.
+It outputs both the non-private (raw) and private (anonymized) couunts using the Google Differential Privacy library.
+
+#### Overview:
+The program reads hospital visits data from a file, it groups the patients by year and returns the count of distinct patients. It writes the output to two CSV files:
+1. **Non-private (raw) counts** - The exact number of unique patients per year calculated without any differential privacy added
+    - output: `non_private_counts_per_year.csv`
+2. **Private (anonymized) counts** - The count of unique patients per year with differential privacy applied to help anonymize the data. 
+    - output: `private_counts_per_year.csv`
+
+#### Privacy Mechanism:
+Private counts are computed using the `Count` primative from the Google Differential Privacy Java library. There are two privacy measures that are applied:
+1.  **Contribution Bounding**: Before applying the differential privacy, each patient can appear at most `MAX_CONTRIBUTED_YEARS` different years, which is set at 2. 
+```java
+    private static final double LN_3 = Math.log(1.5); // Epsilon value for differential privacy
+    private static final int MAX_CONTRIBUTED_YEARS = 2; // max number of years a patient can contribute to
+    
+
+    public static void run(Path path){ 
+        VisitsForYear visitsForYear = IOUtils.readYearlyVisits(path);
+        
+        Map<Year, Integer> nonPrivatePtntCnt = getNonPrivatePatientCount(visitsForYear); // calc non-private patient/year counts
+        Map<Year, Integer> privatePtntCnt = getPrivatePatientCount(visitsForYear); // calc private patient/year counts
+
+        IOUtils.writeCountPerYear(nonPrivatePtntCnt, NON_PRIVATE_OUTPUT); // Write non-private counts to file
+        IOUtils.writeCountPerYear(privatePtntCnt, PRIVATE_OUTPUT); // Write private counts to file
+
+```
+2. **Noise Addition**: After the contribution bounding, the program uses the `Count` primitive to calculate the differentially private counts:
+```java
+    static Map<Year, Integer> getPrivatePatientCount(VisitsForYear visits){
+        Map<Year, Integer> privateCnt = new HashMap<>();
+        
+        // Bound the contribution: limit each patient to MAX_CONTRIBUTED_YEARS 
+        VisitsForYear boundedVisits = ContributionBoundingUtils.boundContributedYears(visits, MAX_CONTRIBUTED_YEARS);
+        
+        for (Year year : boundedVisits.getYearsWithData()){
+            Set<Integer> uniquePtnt = new HashSet<>();
+            for (PatientRecord record : boundedVisits.getVisitsForYear(year)) {
+                uniquePtnt.add(record.id);
+            }
+
+            Count dpCount = Count.builder()
+                .epsilon(LN_3)
+                .maxPartitionsContributed(MAX_CONTRIBUTED_YEARS)
+                .build();
+            
+            dpCount.incrementBy(uniquePtnt.size());
+            privateCnt.put(year, (int) dpCount.computeResult());
+        }
+        return privateCnt;
+    }
+```

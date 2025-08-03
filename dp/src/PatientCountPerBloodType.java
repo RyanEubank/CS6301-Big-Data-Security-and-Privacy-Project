@@ -28,9 +28,9 @@ public class PatientCountPerBloodType {
     static Map<String, Integer> getNonPrivateBGCount(VisitsForBG visits){
         Map<String, Integer> ptntPerBloodType = new HashMap<>();
         for (String bloodType : visits.getBGWithData()){
-            Set<String> uniquePtnt = new HashSet<>();
+            Set<Integer> uniquePtnt = new HashSet<>();
             for (PatientRecord record : visits.getVisitsForBG(bloodType)){
-                uniquePtnt.add(record.name); // Collect unique patient names for the blood type
+                uniquePtnt.add(record.id); // Collect unique patient names for the blood type
             }
             ptntPerBloodType.put(bloodType, uniquePtnt.size()); // Store the count of unique patients for the blood type
         }
@@ -43,9 +43,9 @@ public class PatientCountPerBloodType {
         VisitsForBG boundedVisits = ContributionBoundingUtils.boundContributedBG(visits, MAX_CONTRIBUTED_BLOOD_TYPE);
 
         for (String bloodType : boundedVisits.getBGWithData()){
-            Set<String> uniquePtnt = new HashSet<>();
+            Set<Integer> uniquePtnt = new HashSet<>();
             for (PatientRecord record : boundedVisits.getVisitsForBG(bloodType)){
-                uniquePtnt.add(record.name); // Collect unique patient names for the blood type
+                uniquePtnt.add(record.id); // Collect unique patient names for the blood type
             }
 
             Count dpCount = Count.builder()

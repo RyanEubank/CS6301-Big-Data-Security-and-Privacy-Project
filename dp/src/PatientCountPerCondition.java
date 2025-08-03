@@ -10,8 +10,9 @@ import java.util.*;
 public class PatientCountPerCondition {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_conditionType.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_conditionType.csv";
-    private static final double LN_3 = Math.log(1.1);
-    private static final int MAX_CONTRIBUTED_COND_TYPE = 2;
+
+    private static final double LN_X = Math.log(1.5); // Epsilon value
+    private static final int MAX_CONTRIBUTED_COND_TYPE = 2; // max number of condition types a patient can contribute to
 
     private PatientCountPerCondition() { }
 
@@ -28,9 +29,9 @@ public class PatientCountPerCondition {
     static Map<String, Integer> getNonPrivateCTCount(VisitsForCT visit){
         Map<String,Integer> ptntPerCond = new HashMap<>();
         for (String cond : visit.getCTWithData()){
-            Set<String> uniquePtnt = new HashSet<>();
+            Set<Integer> uniquePtnt = new HashSet<>();
             for (PatientRecord record : visit.getVisitsForCT(cond)) {
-                uniquePtnt.add(record.name); // Collect unique patient names for the condition type
+                uniquePtnt.add(record.id); // Collect unique patient names for the condition type
             }
             ptntPerCond.put(cond, uniquePtnt.size()); // Store the count of unique patients for the condition type
         }
@@ -43,13 +44,13 @@ public class PatientCountPerCondition {
         VisitsForCT boundedVisits = ContributionBoundingUtils.boundContributedCT(visits, MAX_CONTRIBUTED_COND_TYPE);
         
         for (String cond: boundedVisits.getCTWithData()){
-            Set<String> uniquePtnt = new HashSet<>();
+            Set<Integer> uniquePtnt = new HashSet<>();
             for (PatientRecord record : boundedVisits.getVisitsForCT(cond)){
-                uniquePtnt.add(record.name); // Collect unique patient names for the condition type
+                uniquePtnt.add(record.id); // Collect unique patient names for the condition type
             }
 
             Count dpCount = Count.builder()
-                .epsilon(LN_3)
+                .epsilon(LN_X)
                 .maxPartitionsContributed(MAX_CONTRIBUTED_COND_TYPE)
                 .build();
             dpCount.incrementBy(uniquePtnt.size()); // Report the number of unique patients in the condition type to DP count
