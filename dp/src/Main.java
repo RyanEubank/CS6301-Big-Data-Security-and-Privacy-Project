@@ -11,6 +11,9 @@ public class Main {
     SumBillingPerBG.run(path);
     MeanBillingPerYear.run(path);
     MeanBillingPerCT.run(path);
+    PatientsCountPerYear.run(path);
+    PatientCountPerCondition.run(path);
+    PatientCountPerBloodType.run(path);
     return;
   }
 

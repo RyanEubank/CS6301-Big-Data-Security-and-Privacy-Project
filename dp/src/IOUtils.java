@@ -176,4 +176,37 @@ class IOUtils {
       throw new IllegalStateException(e);
     }
   }
+  
+  static void writeCountPerYear(Map<Year, Integer> counts, String file){
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Year,Count\n"); // Write header
+      String format = "%d,%d\n";
+      counts.forEach(
+          (year, count) -> pw.write(String.format(format, year.getValue(), count)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  static void writeCountsPerConditionType(Map<String, Integer> counts, String file) {
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Condition,Count\n"); // Write header
+      String format = "%s,%d\n";
+      counts.forEach(
+          (conditionType, count) -> pw.write(String.format(format, conditionType, count)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  static void writeCountsPerBloodType(Map<String, Integer> counts, String file){
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Blood Group,Counts\n"); // Write header
+      String format = "%s,%d\n";
+      counts.forEach(
+              (BG, count) -> pw.write(String.format(format, BG, count)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
 }
