@@ -18,15 +18,16 @@ public class SumBillingPerYear {
   private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_per_year.csv";
   private static final String PRIVATE_OUTPUT = "dp/out/private_sums_per_year.csv";
 
-  private static final double LN_3 = Math.log(3);
+  private static final double LN_X = Math.log(1.1);
 
   /**
    * Number of visits contributed by a single patient will be limited to 2. All exceeding
    * visits will be discarded. In the dataset though there very minimal duplicate names, so 2 shouuld be good.
    */
+  //How many different Years can a patient name contribute to overall.
   private static final int MAX_CONTRIBUTED_YEARS = 2;
   /** Minimum amount of money we expect a patient billed in a single visit. */
-  private static final int MIN_EUROS_SPENT = -2009;
+  private static final int MIN_EUROS_SPENT = 0;
   /** Maximum amount of money we expect a patient billed in a single visit. */
   private static final int MAX_EUROS_SPENT = 50000;
 
@@ -72,7 +73,7 @@ public class SumBillingPerYear {
     for (Year y : boundedVisits.getYearsWithData()) {
       BoundedSum dpSum =
           BoundedSum.builder()
-              .epsilon(LN_3)
+              .epsilon(LN_X)
               // The data was pre-processed so that each patient may visit the hospital up to
               // MAX_CONTRIBUTED_YEARS
               // Note: while the library accepts this limit as a configurable parameter,

@@ -8,6 +8,9 @@ public class Main {
   public static void main(String[] args) {
     Path path = checkUsage(args);
     SumBillingPerYear.run(path);
+    SumBillingPerBG.run(path);
+    MeanBillingPerYear.run(path);
+    MeanBillingPerCT.run(path);
     return;
   }
 
