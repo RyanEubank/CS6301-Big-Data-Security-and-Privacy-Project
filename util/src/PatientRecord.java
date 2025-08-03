@@ -1,9 +1,11 @@
 package util.src;
 
-import java.time.LocalDate;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class PatientRecord {
-    
+
+    public int id;
     public String name;
     public int age;
     public String gender;
@@ -23,21 +25,31 @@ public class PatientRecord {
     public PatientRecord() {}
 
     public PatientRecord(String[] record) {
-        name = record[0];
-        age = Integer.parseInt(record[1]);
-        gender = record[2];
-        bloodType = record[3];
-        condition = record[4];
-        admissionDate = LocalDate.parse(record[5]);
-        doctor = record[6];
-        hospital = record[7];
-        provider = record[8];
-        bill = Float.parseFloat(record[9]);
-        roomNumber = Integer.parseInt(record[10]);
-        admissionType = record[11];
-        dischargeDate = LocalDate.parse(record[12]);
-        medication = record[13];
-        testResults = record[14];
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
+
+        id = Integer.parseInt(record[0]);
+        name = record[1];
+        age = Integer.parseInt(record[2]);
+        gender = record[3];
+        bloodType = record[4];
+        condition = record[5];
+        admissionDate = LocalDate.parse(record[6], formatter);
+        doctor = record[7];
+        hospital = record[8];
+        provider = record[9];
+        bill = Float.parseFloat(record[10]);
+        roomNumber = Integer.parseInt(record[11]);
+        admissionType = record[12];
+        dischargeDate = LocalDate.parse(record[13], formatter);
+        medication = record[14];
+        testResults = record[15];
+    }
+
+
+
+    public Year yearAdmitted() {
+        return Year.from(admissionDate);
     }
 
     public String toString() {
@@ -55,6 +67,7 @@ public class PatientRecord {
         return "* ================================== *" +
                 "            PATIENT RECORD            " +
                 "* ================================== *" +
+                "Id: " + id + "\n" +
                 "Name: " + name + "\n" +
                 "Age: " + age + "\n" +
                 "Gender: " + gender + "\n" +
