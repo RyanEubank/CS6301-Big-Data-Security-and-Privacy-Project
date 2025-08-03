@@ -10,6 +10,11 @@ import java.util.Set;
 
 import util.src.PatientRecord;
 
+/**
+ * A collection of patient visits, grouped by the year of admission. This class
+ * provides a way to store and retrieve {@link PatientRecord} objects based on
+ * the year they occurred.
+ */
 class VisitsForYear {
   private final Map<Year, List<PatientRecord>> visits;
 
@@ -18,7 +23,9 @@ class VisitsForYear {
   }
 
   /**
-   * Adds the given {@link Visit}.
+   * Adds the given {@link PatientRecord} to a list associated with its admission year.
+   *
+   * @param record The patient record to add.
    */
   void addVisit(PatientRecord record) {
     Year year = record.yearAdmitted();
@@ -27,13 +34,18 @@ class VisitsForYear {
 
   /**
    * Returns all visits for a specific year.
+   *
+   * @param year The year for which to retrieve visits.
+   * @return A list of patient records for the specified year. Returns an empty list if the year does not exist.
    */
   List<PatientRecord> getVisitsForYear(Year year) {
     return visits.getOrDefault(year, new ArrayList<>());
   }
 
   /**
-   * Returns the set of years for which there is visit data.
+   * Returns the set of all years that have at least one visit record.
+   *
+   * @return A set of {@link Year} objects.
    */
   Set<Year> getYearsWithData() {
     return visits.keySet();
@@ -41,6 +53,8 @@ class VisitsForYear {
 
   /**
    * Returns a single list containing all visits from all years.
+   *
+   * @return A new list containing all stored patient records.
    */
   List<PatientRecord> getAllVisits() {
     List<PatientRecord> allVisits = new ArrayList<>();

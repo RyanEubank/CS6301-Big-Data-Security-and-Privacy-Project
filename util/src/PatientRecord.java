@@ -8,6 +8,7 @@ public class PatientRecord {
     public int id;
     public String name;
     public int age;
+    public String ageGroup;
     public String gender;
     public String bloodType;
     public String condition;
@@ -31,6 +32,7 @@ public class PatientRecord {
         id = Integer.parseInt(record[0]);
         name = record[1];
         age = Integer.parseInt(record[2]);
+        ageGroup = calculateAgeGroup(this.age);
         gender = record[3];
         bloodType = record[4];
         condition = record[5];
@@ -47,6 +49,15 @@ public class PatientRecord {
     }
 
 
+    private String calculateAgeGroup(int ageValue) {
+        if (ageValue <= 0) {
+            return "Unknown";
+        }
+        // This logic creates 10-year brackets, e.g., 21-30, 31-40.
+        int lowerBound = (int) (Math.floor((ageValue - 1) / 10) * 10) + 1;
+        int upperBound = lowerBound + 9;
+        return lowerBound + " - " + upperBound;
+    }
 
     public Year yearAdmitted() {
         return Year.from(admissionDate);
@@ -70,6 +81,7 @@ public class PatientRecord {
                 "Id: " + id + "\n" +
                 "Name: " + name + "\n" +
                 "Age: " + age + "\n" +
+                "Age Group: " + ageGroup + "\n" +
                 "Gender: " + gender + "\n" +
                 "Blood Type: " + bloodType + "\n" +
                 "Condition: " + condition + "\n" +
