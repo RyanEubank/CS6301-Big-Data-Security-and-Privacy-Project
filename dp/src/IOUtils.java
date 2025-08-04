@@ -291,9 +291,16 @@ class IOUtils {
     }
   }
 
+  /*
+   * Writes a map of years and their patient counts to a CSV file.
+   * The output format is "Year,Patient Count".
+   * 
+   * @param counts a map where the key is the year and the value is the patient count.
+   * @param file The path to the output file.
+   */
   static void writeCountPerYear(Map<Year, Integer> counts, String file){
     try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
-      pw.write("Year,Count\n"); // Write header
+      pw.write("Year, Patient Count\n"); // Write header
       String format = "%d,%d\n";
       counts.forEach(
           (year, count) -> pw.write(String.format(format, year.getValue(), count)));
@@ -302,9 +309,16 @@ class IOUtils {
     }
   }
 
+  /*
+   * Writes a map of condition type and their patient counts to a CSV file.
+   * The output format is "Condition ,Patient Count".
+   * 
+   * @param counts a map where the key is the condition type and the value is the patient count.
+   * @param file The path to the output file.
+   */
   static void writeCountsPerConditionType(Map<String, Integer> counts, String file) {
     try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
-      pw.write("Condition,Count\n"); // Write header
+      pw.write("Condition, Patient Count\n"); // Write header
       String format = "%s,%d\n";
       counts.forEach(
           (conditionType, count) -> pw.write(String.format(format, conditionType, count)));
@@ -313,12 +327,37 @@ class IOUtils {
     }
   }
 
+  /*
+   * Writes a map of blood type and their patient counts to a CSV file.
+   * The output format is "Blood Group,Patient Count".
+   * 
+   * @param counts a map where the key is the blood type and the value is the patient count.
+   * @param file The path to the output file.
+   */
   static void writeCountsPerBloodType(Map<String, Integer> counts, String file){
     try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
-      pw.write("Blood Group,Counts\n"); // Write header
+      pw.write("Blood Group, Patient Counts\n"); // Write header
       String format = "%s,%d\n";
       counts.forEach(
               (BG, count) -> pw.write(String.format(format, BG, count)));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+    /*
+   * Writes a map of age group and their patient counts to a CSV file.
+   * The output format is "Age Group,Patient Count".
+   * 
+   * @param counts a map where the key is the age group and the value is the patient count.
+   * @param file The path to the output file.
+   */
+  static void writeCountsPerAgeGroup(Map<String, Integer> counts, String file){
+    try (PrintWriter pw = new PrintWriter(new File(file), UTF_8.name())) {
+      pw.write("Age Group, Patient Counts\n"); // Write header
+      String format = "%s,%d\n";
+      counts.forEach(
+              (AgeGroup, count) -> pw.write(String.format(format, AgeGroup, count)));
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }

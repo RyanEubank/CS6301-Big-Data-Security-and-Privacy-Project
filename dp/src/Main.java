@@ -17,6 +17,7 @@ public class Main {
     PatientsCountPerYear.run(path);
     PatientCountPerCondition.run(path);
     PatientCountPerBloodType.run(path);
+    PatientCountPerAgeGroup.run(path);
     return;
   }
 

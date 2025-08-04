@@ -10,7 +10,7 @@ import java.util.*;
 public class PatientCountPerBloodType {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_bloodType.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_bloodType.csv";
-    private static final double LN_X = Math.log(1.1);
+    private static final double LN_X = Math.log(1.004); // Epsilon value
     private static final int MAX_CONTRIBUTED_BLOOD_TYPE = 1; // 1 patient should not have more than 1 blood type 
 
     private PatientCountPerBloodType() { }

@@ -17,7 +17,7 @@ public class PatientsCountPerYear {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_year.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_year.csv";
 
-    private static final double LN_3 = Math.log(1.5); // Epsilon value for differential privacy
+    private static final double LN_X = Math.log(1.005); // Epsilon value for differential privacy
     private static final int MAX_CONTRIBUTED_YEARS = 2; // max number of years a patient can contribute to
     
 
@@ -60,7 +60,7 @@ public class PatientsCountPerYear {
             }
 
             Count dpCount = Count.builder()
-                .epsilon(LN_3)
+                .epsilon(LN_X)
                 .maxPartitionsContributed(MAX_CONTRIBUTED_YEARS)
                 .build();
             

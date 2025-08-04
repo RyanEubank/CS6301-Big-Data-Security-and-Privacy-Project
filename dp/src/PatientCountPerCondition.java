@@ -11,7 +11,7 @@ public class PatientCountPerCondition {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_conditionType.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_conditionType.csv";
 
-    private static final double LN_X = Math.log(1.5); // Epsilon value
+    private static final double LN_X = Math.log(1.005); // Epsilon value
     private static final int MAX_CONTRIBUTED_COND_TYPE = 2; // max number of condition types a patient can contribute to
 
     private PatientCountPerCondition() { }
