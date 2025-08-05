@@ -9,8 +9,6 @@ set module="%~1"
 IF %module% == "--statistics" (
     javac -cp util/build statistics/src/*.java -d statistics/build
     java -cp statistics/build;util/build statistics.src.Main %2 %3
-    javac -cp util/build statistics/src/*.java -d statistics/build
-    java -cp statistics/build;util/build statistics.src.Main %2 %3
 ) ELSE IF %module% == "--inference" (
     javac -cp util/build inference/src/*.java -d inference/build
     java -cp inference/build;util/build inference.src.Main %2 %3 %4 %5
