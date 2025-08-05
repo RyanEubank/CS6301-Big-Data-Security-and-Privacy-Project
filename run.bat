@@ -3,9 +3,12 @@
 javac util/src/*.java -d util/build
 
 set root=%cd%
+set root=%cd%
 set module="%~1"
 
 IF %module% == "--statistics" (
+    javac -cp util/build statistics/src/*.java -d statistics/build
+    java -cp statistics/build;util/build statistics.src.Main %2 %3
     javac -cp util/build statistics/src/*.java -d statistics/build
     java -cp statistics/build;util/build statistics.src.Main %2 %3
 ) ELSE IF %module% == "--inference" (
