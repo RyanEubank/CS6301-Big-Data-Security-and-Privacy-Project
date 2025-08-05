@@ -9,8 +9,15 @@ public class Main {
     Path path = checkUsage(args);
     SumBillingPerYear.run(path);
     SumBillingPerBG.run(path);
+    SumBillingPerAG.run(path);
     MeanBillingPerYear.run(path);
     MeanBillingPerCT.run(path);
+    MeanAgePerCT.run(path);
+    MeanBillingPerAG.run(path);
+    PatientsCountPerYear.run(path);
+    PatientCountPerCondition.run(path);
+    PatientCountPerBloodType.run(path);
+    PatientCountPerAgeGroup.run(path);
     return;
   }
 
