@@ -38,7 +38,7 @@ Scale of Noise addition:
 The scale c/ε of the Laplace distribution controls the spread of the noise distribution. The distribution is wider for 
 more sensitive functions (larger c) or stronger privacy guarantees (smaller ε), giving a higher probability of adding more noise.
 
-<img src="https://github.com/RyanEubank/CS6301-Big-Data-Security-and-Privacy-Project/edit/main/dp/images/Fig1.png" alt="drawing" width="200"/>
+![Fig1.png](images/Fig1.png)
 
 The overall sensitivity c in a dataset is measured as a function of contributions by an individual across the dataset through:
 * L0 Sensitivity(maxpartitionscontributed): defines how many different components of a function the individual contributed to. 
