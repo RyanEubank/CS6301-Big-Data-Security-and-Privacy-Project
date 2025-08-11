@@ -14,10 +14,10 @@ import java.util.*;
  * Assumes that a patient may have records in multiple age groups.
  */
 public class SumBillingPerAG {
-    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_billing_per_AG.csv";
-    private static final String PRIVATE_OUTPUT = "dp/out/private_sums_billing_per_AG.csv";
+    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_billing_per_AgeGroup.csv";
+    private static final String PRIVATE_OUTPUT = "dp/out/private_sums_billing_per_AgeGroup.csv";
 
-    private static final double LN_X = Math.log(1.05);
+    private static final double LN_X = Math.log(1.1);
 
     /**
      * The maximum number of different age groups a single patient can contribute to.
@@ -82,6 +82,19 @@ public class SumBillingPerAG {
                             .lower(MIN_EUROS_SPENT)
                             .upper(MAX_EUROS_SPENT)
                             .build();
+
+
+            // For each patient, pre-aggregate their spending for the Age Group.
+            Map<Integer, Double> patientToAGSpending = new HashMap<>();
+            for (PatientRecord r : boundedVisits.getVisitsForAG(AG)) {
+                int id = r.id;
+                if (patientToAGSpending.containsKey(id)) {
+                    double newAmount = patientToAGSpending.get(id) + r.bill;
+                    patientToAGSpending.put(id, newAmount);
+                } else {
+                    patientToAGSpending.put(id, (double) r.bill);
+                }
+            }
 
             for (PatientRecord r : boundedVisits.getVisitsForAG(AG)) {
                 dpSum.addEntry(r.bill);

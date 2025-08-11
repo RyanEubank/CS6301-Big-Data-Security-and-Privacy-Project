@@ -14,16 +14,16 @@ import java.util.Map;
  * Assumes that a patient may have records associated with multiple blood groups (unlikely, but handled).
  */
 public class SumBillingPerBG {
-  private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_billing_per_BG.csv";
-  private static final String PRIVATE_OUTPUT = "dp/out/private_sums_billing_per_BG.csv";
+  private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_sums_billing_per_BlooodGroup.csv";
+  private static final String PRIVATE_OUTPUT = "dp/out/private_sums_billing_per_BloodGroup.csv";
 
-  private static final double LN_X = Math.log(1.05);
+  private static final double LN_X = Math.log(1.1); //epsilon value set as ln(1.1)
 
   /**
    * The maximum number of different blood groups a single patient can contribute to.
    * All contributions to additional blood groups will be discarded.
    */
-  private static final int MAX_PARTITION_CONTRIBUTIONS = 2;
+  private static final int MAX_PARTITION_CONTRIBUTIONS = 1;
   /** Minimum billing amount expected for a single visit. */
   private static final int MIN_EUROS_SPENT = 0;
   /** Maximum billing amount expected for a single visit. */
@@ -82,6 +82,19 @@ public class SumBillingPerBG {
                       .lower(MIN_EUROS_SPENT)
                       .upper(MAX_EUROS_SPENT)
                       .build();
+
+
+      // For each patient, pre-aggregate their spending for the Blood Type.
+      Map<Integer, Double> patientToBGSpending = new HashMap<>();
+      for (PatientRecord r : boundedVisits.getVisitsForBG(BG)) {
+        int id = r.id;
+        if (patientToBGSpending.containsKey(id)) {
+          double newAmount = patientToBGSpending.get(id) + r.bill;
+          patientToBGSpending.put(id, newAmount);
+        } else {
+          patientToBGSpending.put(id, (double) r.bill);
+        }
+      }
 
       for (PatientRecord r : boundedVisits.getVisitsForBG(BG)) {
         dpSum.addEntry(r.bill);

@@ -12,8 +12,9 @@ public class PatientCountPerAgeGroup {
     private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_counts_per_age_group.csv";
     private static final String PRIVATE_OUTPUT = "dp/out/private_counts_per_age_group.csv";
 
-    private static final double LN_X = Math.log(1.05); 
+    private static final double LN_X = Math.log(2);
     private static final int MAX_CONTRIBUTED_AGE_GROUP = 2;
+
 
     private PatientCountPerAgeGroup() { }
 

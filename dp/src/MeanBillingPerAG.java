@@ -12,12 +12,12 @@ import java.util.Map;
  * billing amount per age group.
  */
 public class MeanBillingPerAG {
-    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_billing_per_AG.csv";
-    private static final String PRIVATE_OUTPUT = "dp/out/private_means_billing_per_AG.csv";
+    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_billing_per_AgeGroup.csv";
+    private static final String PRIVATE_OUTPUT = "dp/out/private_means_billing_per_AgeGroup.csv";
 
     // Epsilon value for the differential privacy algorithm. A smaller epsilon
     // results in stronger privacy guarantees but less accurate results.
-    private static final double LN_X = Math.log(1.03);
+    private static final double LN_X = Math.log(1.1);
 
     // The maximum number of different age groups a patient can contribute to.
     private static final int MAX_PARTITION_CONTRIBUTIONS = 2;

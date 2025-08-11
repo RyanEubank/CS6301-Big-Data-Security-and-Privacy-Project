@@ -12,8 +12,8 @@ import java.util.Map;
  * billing amount per medical condition.
  */
 public class MeanBillingPerCT {
-    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_billing_per_CT.csv";
-    private static final String PRIVATE_OUTPUT = "dp/out/private_means_billing_per_CT.csv";
+    private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_means_billing_per_condition.csv";
+    private static final String PRIVATE_OUTPUT = "dp/out/private_means_billing_per_condition.csv";
 
     // Epsilon value for the differential privacy algorithm. A smaller epsilon
     // results in stronger privacy guarantees but less accurate results.

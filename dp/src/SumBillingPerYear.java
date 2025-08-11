@@ -83,6 +83,19 @@ public class SumBillingPerYear {
                       .upper(MAX_EUROS_SPENT)
                       .build();
 
+
+      // For each patient, pre-aggregate their spending for the year.
+      Map<Integer, Double> patientToYearSpending = new HashMap<>();
+      for (PatientRecord r : boundedVisits.getVisitsForYear(y)) {
+        int id = r.id;
+        if (patientToYearSpending.containsKey(id)) {
+          double newAmount = patientToYearSpending.get(id) + r.bill;
+          patientToYearSpending.put(id, newAmount);
+        } else {
+          patientToYearSpending.put(id, (double) r.bill);
+        }
+      }
+
       for (PatientRecord r : boundedVisits.getVisitsForYear(y)) {
         dpSum.addEntry(r.bill);
       }

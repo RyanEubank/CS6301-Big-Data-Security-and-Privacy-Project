@@ -12,8 +12,8 @@ import java.util.Map;
  * age per medical condition.
  */
 public class MeanAgePerCT {
-  private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_mean_age_per_CT.csv";
-  private static final String PRIVATE_OUTPUT = "dp/out/private_mean_age_per_CT.csv";
+  private static final String NON_PRIVATE_OUTPUT = "dp/out/non_private_mean_age_per_condition.csv";
+  private static final String PRIVATE_OUTPUT = "dp/out/private_mean_age_per_condition.csv";
 
   // Epsilon value for the differential privacy algorithm. A smaller epsilon
   // results in stronger privacy guarantees but less accurate results.
