@@ -11,8 +11,8 @@ elif [[ $module == "--inference" ]]; then
     java -cp inference/build:util/build inference.src.Main $2 $3 $4 $5
 elif [[ $module == "--dp" ]]; then
     javac -cp util/build:dp/lib/* dp/src/*.java -d dp/build
+	mkdir dp/out
     java -cp dp/build:util/build:dp/lib/* dp.src.Main $2
-    mkdir dp/out
 else
     echo "Unknown command. Usage ./run.sh <module> <args>"
 fi
