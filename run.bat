@@ -17,5 +17,5 @@ IF %module% == "--statistics" (
     java -cp dp/build;util/build;dp/lib/* dp.src.Main %2
     mkdir dp/out
 ) ELSE (
-    echo "Unknown command."
+    echo "Unknown command. Usage ./run.bat <module> <args>"
 )
