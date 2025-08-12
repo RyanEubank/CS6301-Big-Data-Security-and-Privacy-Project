@@ -16,6 +16,7 @@ IF %module% == "--statistics" (
     javac -cp util/build;dp/lib/* dp/src/*.java -d dp/build
     mkdir dp\out
     java -cp dp/build;util/build;dp/lib/* dp.src.Main %2
+    echo Files written to dp/out
 ) ELSE (
     echo "Unknown command. Usage ./run.bat <module> <args>"
 )
