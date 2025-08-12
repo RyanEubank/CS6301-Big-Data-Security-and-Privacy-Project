@@ -403,4 +403,4 @@ heavily than high accuracy, while still maintaining general utility.
 
 [4] 	“Differential Privacy: An Economic Method for Choosing Epsilon” by Hsu et al., Accessible at: https://haeberlen.cis.upenn.edu/papers/epsilon-csf2014.pdf
 
-[5]	NIST Special Publication: “Guidelines for Evaluating Differential Privacy Guarantees”. Accessible at: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf
+[5]	NIST Special Publication(2025): “Guidelines for Evaluating Differential Privacy Guarantees”. Accessible at: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf
