@@ -1,6 +1,7 @@
 package inference.src;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import util.src.PatientRecord;
 
@@ -31,7 +32,7 @@ public class Inference {
 				p.age = age;
 				return p;
 			})
-			.toList());
+			.collect(Collectors.toList()));
 		});
 
 		return results;
@@ -73,7 +74,7 @@ public class Inference {
 	}
 	
 	private static boolean canSelectAgesWithSum(List<PatientRecord> list, int count, float targetSum) {
-		List<Integer> ages = list.stream().mapToInt(r -> r.age).boxed().sorted().toList();
+		List<Integer> ages = list.stream().mapToInt(r -> r.age).boxed().sorted().collect(Collectors.toList());
 		
 		return canFindExactSum(ages, count, Math.round(targetSum), 0);
 	}
@@ -343,7 +344,7 @@ public class Inference {
                         mutableList.add(k_);
                         mutableList.addAll(list);
                         return mutableList;
-                    }).toList());
+                    }).collect(Collectors.toList()));
                 }
 
                 table.get(j).get(i).addAll(results);
