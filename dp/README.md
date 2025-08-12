@@ -135,6 +135,17 @@ Private counts are computed using the `Count` primative from the Google Differen
     }
 ```
 
+### Results:
+The below graphs show the comparison of non-private vs private patient counts and the impact of how the choice of epsilon (ε) influences the balance between the privacy and utility in the healthcare dataset. 
+
+![Fig3.png](images/Fig3.png)
+
+Fig 3. shows a comparison between private and non-private patient counts per year with different epsilon values. The left graph the epsilon value is set `ε = ln(1.10)` and in the right graph the epsilon value is set `ε = ln(1.05)`. When the epsilon value is set to `ln(1.10)` there is minimal difference between the private vs non-private counts indicating less noise was added. In contrast when the epsilon value is set to `ln(1.05)` the difference between the private and non-private counts were larger, indicating more noise and therefore more privacy.
+
+![Fig4.png](images/Fig4.png)
+
+Fig 4. shows the comparison between the private and non-private patient counts per condition type with different epsilon values. The left graph the epsilon value is set `ε = ln(1.10)` and in the right graph the epsilon value is set `ε = ln(1.05)`. The same pattern is seen in Fig 4. as in Fig 3. 
+
 ## SUM Statistics:
 
 DP Library provides methods for the calculation of Bounded Sum for the desired field in the given dataset.
