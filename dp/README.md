@@ -31,7 +31,7 @@
   - [Evaluating Privacy vs Utility Tradeoff:](#evaluating-privacy-vs-utility-tradeoff)
   - [References:](#references)
 
-## Running the program:
+## Run the program:
 This program is built upon Google's Java Differential Privacy Library using a Healthcare dataset sourced from Kaggle. The csv source file is titled patient_records.csv
 
 After navigating to the directory of the project in shell, run the following:
@@ -62,7 +62,7 @@ single individual’s data can influence the output of a statistical computation
 calibrated noise into statistical computations such that the utility of the statistic is preserved while probably 
 limiting what can be inferred about any individual in the dataset.
 Given ε ≥ 0, a mechanism M is ε-differentially private if, for any two neighboring databases D and D’, differing 
-only by a single individual’s record, and for any subset S ⊆ R of outputs,  Pr[M(D) ∈ S] ≤ eε · Pr[M(D’ ) ∈ S]. 
+only by a single individual’s record, and for any subset S ⊆ R of outputs,  Pr[M(D) ∈ S] ≤ e<sup>ε</sup> · Pr[M(D’ ) ∈ S]. 
 The parameter ε controls how much the distribution of outputs can depend on data from the individual x. [4]
 
 ### Sensitivity & Laplace Mechanism:
@@ -70,7 +70,7 @@ Sensitivity quantifies how much a query's output can change when the input datas
 typically by adding, removing, or changing a single individual's data. Measured as c or Δ for a function g that maps data D to real numbers:
 max|g(D)−g(D’)| ≤ c
 
-The Laplace mechanism is defined by Lc,ε (D) = g(D) + ν, where ν is the noise drawn from the Laplace distribution 
+The Laplace mechanism is defined by L<sub>c,ε</sub> (D) = g(D) + ν, where ν is the noise drawn from the Laplace distribution 
 Lap(c/ε) added to the function g, with probability density function F(ν) = ε/2c * exp( −ε|ν|/c ). [4]
 Scale of Noise addition:
 The scale c/ε of the Laplace distribution controls the spread of the noise distribution. The distribution is wider for 
@@ -79,11 +79,11 @@ more sensitive functions (larger c) or stronger privacy guarantees (smaller ε),
 ![Fig1.png](images/Fig1.png)
 
 The overall sensitivity c in a dataset is measured as a function of contributions by an individual across the dataset through:
-* L0 Sensitivity(maxpartitionscontributed): defines how many different components of a function the individual contributed to. 
+* L<sub>0</sub> Sensitivity(maxpartitionscontributed): defines how many different components of a function the individual contributed to. 
 Ex: Billing a patient admitted with different conditions at different periods of time.
-* LInf Sensitivity(maxcontributionsperpartition): defines how many times an individual contributed to a single component of the function. 
+* L<sub>Inf</sub> Sensitivity(maxcontributionsperpartition): defines how many times an individual contributed to a single component of the function. 
 Ex: Billing a patient admitted multiple times with a single condition.
-* L1 Sensitivity for Laplace distribution is defined as L0 * LInf, with an increase in either of them adding more noise to the data.
+* L<sub>1</sub> Sensitivity for Laplace distribution is defined as L<sub>0</sub> * L<sub>Inf</sub>, with an increase in either of them adding more noise to the data.
 
 
 ### Privacy Budget & Utility Tradeoff:
