@@ -267,7 +267,7 @@ The program reads hospital visits data of patients from a file, it groups the pa
 #### Privacy Mechanism:
 Private Means are computed using the `BoundedMean` primitive from the Google Differential Privacy Java library. There are three privacy measures that are applied:
 
-1.  **Contribution Bounding**: Before applying the differential privacy, each patient can appear at most `MAX_PARTITION_CONTRIBUTIONS` different medical conditions, and contribute `MAX_CONTRIBUTIONS_PER_PARTITION` at most Age Group contributions for each medical condition, both of which are set at 2, accounting for spread of same patient across medical conditions and age groups.
+1.  **Contribution Bounding**: Before applying the differential privacy, each patient can appear at most `MAX_PARTITION_CONTRIBUTIONS` different medical conditions, and contribute `MAX_CONTRIBUTIONS_PER_PARTITION` at most records for each medical condition, both of which are set at 2, accounting for spread of same patient across medical conditions and within a medical condition.
 2. **Clamping Bounds**:
    Clamping the contribution by any individual through lower and upper bounds handles exceptions, where an individual age 
    might be infinitely large or small value, distorting the scale of noise to be added.
