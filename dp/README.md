@@ -41,7 +41,14 @@ For Windows:
 $ ./run.bat --dp ./patient_records.csv
 ```
 
-For macOS:
+For linux/macOS:
+
+
+```shell
+$ ./run.sh --dp ./patient_records.csv
+```
+
+(or)
 ```shell
 $ javac util/src/*.java -d util/build
 $ javac -cp util/build:dp/lib/* dp/src/*.java -d dp/build
