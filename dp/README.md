@@ -402,3 +402,5 @@ heavily than high accuracy, while still maintaining general utility.
 [3]	Simson Garfinkel, John M. Abowd, and Christian Martindale. 2019. Understanding database reconstruction attacks on public data. Commun. ACM 62, 3 (March 2019), 46–53. https://doi.org/10.1145/3287287
 
 [4] 	“Differential Privacy: An Economic Method for Choosing Epsilon” by Hsu et al., Accessible at: https://haeberlen.cis.upenn.edu/papers/epsilon-csf2014.pdf
+
+[5]	NIST Special Publication: “Guidelines for Evaluating Differential Privacy Guarantees”. Accessible at: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf
