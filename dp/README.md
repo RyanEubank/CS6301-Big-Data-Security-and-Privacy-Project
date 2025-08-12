@@ -1,6 +1,37 @@
 
 # Differential Privacy Analytics application on a Healthcare Dataset.
 
+## **Table of Contents**  
+
+- [Differential Privacy Analytics application on a Healthcare Dataset.](#differential-privacy-analytics-application-on-a-healthcare-dataset)
+  - [Running the program:](#running-the-program)
+  - [Basics of Differential Privacy:](#basics-of-differential-privacy)
+    - [Definition:](#definition)
+    - [Sensitivity & Laplace Mechanism:](#sensitivity--laplace-mechanism)
+    - [Privacy Budget & Utility Tradeoff:](#privacy-budget--utility-tradeoff)
+    - [Applications of Differential Privacy:](#applications-of-differential-privacy)
+  - [Implementation:](#implementation)
+    - [Assumptions:](#assumptions)
+    - [Few abbreviations used:](#few-abbreviations-used)
+  - [COUNT Statistics:](#count-statistics)
+    - [PatientsCountPerYear](#patientscountperyear)
+      - [Overview:](#overview)
+      - [Privacy Mechanism:](#privacy-mechanism)
+    - [Results:](#results)
+  - [SUM Statistics:](#sum-statistics)
+    - [SumBillingPerAgeGroup](#sumbillingperagegroup)
+      - [Overview:](#overview-1)
+      - [Privacy Mechanism:](#privacy-mechanism-1)
+    - [Results:](#results-1)
+  - [MEAN Statistics:](#mean-statistics)
+    - [MeanAgePerConditionType](#meanageperconditiontype)
+      - [Overview:](#overview-2)
+      - [Privacy Mechanism:](#privacy-mechanism-2)
+    - [Results:](#results-2)
+  - [Evaluating Privacy vs Utility Tradeoff:](#evaluating-privacy-vs-utility-tradeoff)
+  - [References:](#references)
+
+## Running the program:
 This program is built upon Google's Java Differential Privacy Library using a Healthcare dataset sourced from Kaggle. The csv source file is titled patient_records.csv
 
 After navigating to the directory of the project in shell, run the following:
